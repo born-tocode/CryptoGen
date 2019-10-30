@@ -26,18 +26,21 @@ class RSAkeyGen {
 
     public static void main(String[] args) {
         RSAkeyGen keyGen = new RSAkeyGen();
-        keyGen.putValues();
-        keyGen.printMsg();
+        keyGen.prepareToGenerate();
+
+        int keyLength = KEYSIZE.get(getKeyFromUser());
+
         try {
-            keyGen.generator();
+            keyGen.generator(keyLenght);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        keyGen.infoAboutKeys();
+        keyGen.displayInfoAboutKeys();
         keyGen.getAnswer();
+
     }
 
-    private void putValues() {
+    private void prepareToGenerate() {
         KEYSIZE.put(0, 1024);
         KEYSIZE.put(1, 2048);
         KEYSIZE.put(2, 4096);
@@ -46,7 +49,7 @@ class RSAkeyGen {
         KEYSIZE.put(5, 16384);
     }
 
-    private void printMsg() {
+    private int getKeyFromUser() {
         OUT.println();
         OUT.println("Please type a digit for strength of RSA:");
         OUT.println();
@@ -57,9 +60,7 @@ class RSAkeyGen {
         }
 
         OUT.println();
-    }
-
-    private int getKey() {
+        
         int key;
         IN.hasNextInt();
         key = IN.nextInt();
@@ -99,16 +100,25 @@ class RSAkeyGen {
         }
     }
 
-    private void generator() throws NoSuchAlgorithmException {
-        kpg = KeyPairGenerator.getInstance("RSA");
-        kpg.initialize(KEYSIZE.get(getKey()));
+    private void generator(int keyLenght) {
+        //TODO rename kpg to something more meaningful
+        try 
+        {
+            kpg = KeyPairGenerator.getInstance("RSA");
+        }
+        catch(Exception e)
+        {}
+        
+        kpg.initialize(keyLenght);
 
         kp = kpg.generateKeyPair();
         privateKey = kp.getPrivate();
         publicKey = kp.getPublic();
     }
 
-    private void infoAboutKeys() {
+    
+     
+    private void displayInfoAboutKeys() {
         OUT.println();
         OUT.println(TXT[2].toLowerCase() + ": " + privateKey.getFormat());
         OUT.println(TXT[3].toLowerCase() + ": " + privateKey.getAlgorithm());
