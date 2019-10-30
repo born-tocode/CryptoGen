@@ -1,4 +1,6 @@
 /.idea/
-*.iml
-*.key
-*.pub
+/SignatureGen/
+/RSAkeyGen/.idea/
+/RSAkeyGen/*.key
+/RSAkeyGen/*.pub
+/RSAkeyGen/*.iml
