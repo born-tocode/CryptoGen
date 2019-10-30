@@ -28,10 +28,10 @@ class RSAkeyGen {
         RSAkeyGen keyGen = new RSAkeyGen();
         keyGen.prepareToGenerate();
 
-        int keyLength = KEYSIZE.get(getKeyFromUser());
+        int keyLength = keyGen.KEYSIZE.get(getKeyFromUser());
 
         try {
-            keyGen.generator(keyLenght);
+            keyGen.generator(keyLength);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
