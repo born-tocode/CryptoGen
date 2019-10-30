@@ -25,16 +25,16 @@ class RSAkeyGen {
     private PublicKey publicKey;
 
     public static void main(String[] args) {
-        RSAkeyGen kg = new RSAkeyGen();
-        kg.putValues();
-        kg.printMsg();
+        RSAkeyGen keyGen = new RSAkeyGen();
+        keyGen.putValues();
+        keyGen.printMsg();
         try {
-            kg.generator();
+            keyGen.generator();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        kg.infoAboutKeys();
-        kg.getAnswer();
+        keyGen.infoAboutKeys();
+        keyGen.getAnswer();
     }
 
     private void putValues() {
