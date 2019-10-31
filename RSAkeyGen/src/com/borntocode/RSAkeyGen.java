@@ -5,16 +5,15 @@ import java.util.Scanner;
 
 class RSAkeyGen implements Util {
 
-//fields 'in', 'out' and 'txt' are implemented by interface
+    //fields 'in', 'out' and 'txt' are implemented by interface
+    private Generator generator = new Generator();
+    private OutBuffer outBuffer = new OutBuffer();
+
 
     public static void main(String[] args) {
         RSAkeyGen keyGen = new RSAkeyGen();
-        keyGen.prepareToGenerate();
 
-        int keyLength = keyGen.keysize.get(keyGen.getKeyFromUser());
 
-        keyGen.generator(keyLength);
-        keyGen.displayInfoAboutKeys();
         keyGen.mainFlowControl();
 
     }
@@ -24,8 +23,8 @@ class RSAkeyGen implements Util {
         out.println("Please type a digit for strength of RSA:");
         out.println();
 
-        for (Integer k : KEYSIZE.keySet()) {
-            Integer v = KEYSIZE.get(k);
+        for (Integer k : generator.getKeysize().keySet()){
+            Integer v = generator.getKeysize().get(k);
             out.print(k + ". " + v + " / ");
         }
 
@@ -56,7 +55,7 @@ class RSAkeyGen implements Util {
                 if (ans.equalsIgnoreCase("Y")) {
                     printKeysToConsole();
                 } else if (ans.equalsIgnoreCase("N")) {
-                    saveKeysToFiles();
+                    outBuffer();
                 } else if (ans.equalsIgnoreCase("Q")) {
                     in.close();
                     out.close();
