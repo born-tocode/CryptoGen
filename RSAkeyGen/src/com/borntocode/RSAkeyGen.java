@@ -5,14 +5,13 @@ import java.util.Scanner;
 
 class RSAkeyGen implements Util {
 
-    private Scanner IN = new Scanner(System.in);
-
+//fields 'in', 'out' and 'txt' are implemented by interface
 
     public static void main(String[] args) {
         RSAkeyGen keyGen = new RSAkeyGen();
         keyGen.prepareToGenerate();
 
-        int keyLength = keyGen.KEYSIZE.get(keyGen.getKeyFromUser());
+        int keyLength = keyGen.keysize.get(keyGen.getKeyFromUser());
 
         keyGen.generator(keyLength);
         keyGen.displayInfoAboutKeys();
@@ -33,9 +32,9 @@ class RSAkeyGen implements Util {
         out.println();
 
         int key;
-        IN.hasNextInt();
-        key = IN.nextInt();
-        IN.nextLine();
+        in.hasNextInt();
+        key = in.nextInt();
+        in.nextLine();
         return key;
     }
 
@@ -52,14 +51,14 @@ class RSAkeyGen implements Util {
 
         try {
             while (ans == null) {
-                ans = IN.findInLine("[ynqYNQ]");
-                IN.nextLine();
+                ans = in.findInLine("[ynqYNQ]");
+                in.nextLine();
                 if (ans.equalsIgnoreCase("Y")) {
                     printKeysToConsole();
                 } else if (ans.equalsIgnoreCase("N")) {
                     saveKeysToFiles();
                 } else if (ans.equalsIgnoreCase("Q")) {
-                    IN.close();
+                    in.close();
                     out.close();
                     System.exit(0);
                 }

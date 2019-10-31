@@ -6,20 +6,31 @@ import java.util.TreeMap;
 
 class Generator {
 
-    private SortedMap<Integer, Integer> KEYSIZE = new TreeMap<>();
+    private SortedMap<Integer, Integer> keysize = new TreeMap<>();
     private KeyPairGenerator keyPairGen;
     private KeyPair keyPair;
     private PrivateKey privateKey;
     private PublicKey publicKey;
 
+    public SortedMap<Integer, Integer> getKeysize() {
+        return keysize;
+    }
+
+    PrivateKey getPrivateKey() {
+        return privateKey;
+    }
+
+    PublicKey getPublicKey() {
+        return publicKey;
+    }
 
     private void prepareToGenerate() {
-        KEYSIZE.put(0, 1024);
-        KEYSIZE.put(1, 2048);
-        KEYSIZE.put(2, 4096);
-        KEYSIZE.put(3, 8192);
-        KEYSIZE.put(4, 12288);
-        KEYSIZE.put(5, 16384);
+        keysize.put(0, 1024);
+        keysize.put(1, 2048);
+        keysize.put(2, 4096);
+        keysize.put(3, 8192);
+        keysize.put(4, 12288);
+        keysize.put(5, 16384);
     }
 
     private void generator(int keyLenght) {
