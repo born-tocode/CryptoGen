@@ -32,7 +32,7 @@ class RSAkeyGen {
 
         keyGen.generator(keyLength);
         keyGen.displayInfoAboutKeys();
-        keyGen.getAnswer();
+        keyGen.mainFlowControl();
 
     }
 
@@ -64,7 +64,7 @@ class RSAkeyGen {
         return key;
     }
 
-    private void getAnswer() {
+    private void mainFlowControl() {
         String ans = null;
 
         OUT.println();
@@ -80,7 +80,7 @@ class RSAkeyGen {
                 ans = IN.findInLine("[ynqYNQ]");
                 IN.nextLine();
                 if (ans.equalsIgnoreCase("Y")) {
-                    printKeys();
+                    printKeysToConsole();
                 } else if (ans.equalsIgnoreCase("N")) {
                     saveKeysToFiles();
                 } else if (ans.equalsIgnoreCase("Q")) {
@@ -92,7 +92,7 @@ class RSAkeyGen {
         } catch (InputMismatchException e) {
             System.err.println("Bad choice. Try again.. or quit 'Q'");
         } finally {
-            getAnswer();
+            mainFlowControl();
         }
     }
 
@@ -120,7 +120,7 @@ class RSAkeyGen {
         OUT.println(TXT[7].toLowerCase() + ": " + publicKey.getAlgorithm());
     }
 
-    private void printKeys() {
+    private void printKeysToConsole() {
         OUT.print(TXT[0]);
         OUT.print(ENCODER.encodeToString(privateKey.getEncoded()));
         OUT.print(TXT[4]);
