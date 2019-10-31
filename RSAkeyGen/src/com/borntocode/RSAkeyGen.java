@@ -1,8 +1,5 @@
 package com.borntocode;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
-
 class RSAkeyGen implements Util {
 
     //fields 'in', 'out' and 'txt' are implemented by interface
@@ -13,31 +10,33 @@ class RSAkeyGen implements Util {
     public static void main(String[] args) {
         RSAkeyGen keyGen = new RSAkeyGen();
 
-
         keyGen.mainFlowControl();
 
     }
 
-    private int getKeyFromUser() {
+    private void mainFlowControl() {
+        int digFromUser;
         out.println();
         out.println("Please type a digit for strength of RSA:");
         out.println();
 
-        for (Integer k : generator.getKeysize().keySet()){
+        for (Integer k : generator.getKeysize().keySet()) {
             Integer v = generator.getKeysize().get(k);
             out.print(k + ". " + v + " / ");
         }
 
         out.println();
 
-        int key;
         in.hasNextInt();
-        key = in.nextInt();
+        digFromUser = in.nextInt();
         in.nextLine();
-        return key;
-    }
 
-    private void mainFlowControl() {
+        switch (digFromUser) {
+
+
+        }
+
+
         String ans = null;
 
         out.println();
@@ -48,49 +47,34 @@ class RSAkeyGen implements Util {
         out.println();
         out.println("'Q' terminate process.");
 
-        try {
-            while (ans == null) {
-                ans = in.findInLine("[ynqYNQ]");
-                in.nextLine();
-                if (ans.equalsIgnoreCase("Y")) {
-                    printKeysToConsole();
-                } else if (ans.equalsIgnoreCase("N")) {
-                    outBuffer();
-                } else if (ans.equalsIgnoreCase("Q")) {
-                    in.close();
-                    out.close();
-                    System.exit(0);
-                }
-            }
-        } catch (InputMismatchException e) {
-            System.err.println("Bad choice. Try again.. or quit 'Q'");
-        } finally {
-            mainFlowControl();
-        }
+//        try {
+//            while (ans == null) {
+//                ans = in.findInLine("[ynqYNQ][0-9]");
+//                in.nextLine();
+//                if (ans.equalsIgnoreCase("Y")) {
+//                    printKeysToConsole();
+//                } else if (ans.equalsIgnoreCase("N")) {
+//                    outBuffer.saveKeysToFiles();
+//                } else if (ans.equalsIgnoreCase("Q")) {
+//                    in.close();
+//                    out.close();
+//                    System.exit(0);
+//                }
+//            }
+//        } catch (InputMismatchException e) {
+//            System.err.println("Bad choice. Try again.. or quit 'Q'");
+//        } finally {
+//            mainFlowControl();
+//        }
+//    }
+//
+//    private int getKeyFromUser() {
+//
+//
+//        int key;
+//        in.hasNextInt();
+//        key = in.nextInt();
+//        in.nextLine();
+//        return key;
     }
-
-    private void displayInfoAboutKeys() {
-        out.println();
-        out.println(txt.[2].toLowerCase() + ": " + privateKey.getFormat());
-        out.println(txt.[3].toLowerCase() + ": " + privateKey.getAlgorithm());
-        out.println();
-        out.println(txt.[6].toLowerCase() + ": " + publicKey.getFormat());
-        out.println(txt.[7].toLowerCase() + ": " + publicKey.getAlgorithm());
-    }
-
-    private void printKeysToConsole() {
-        out.print(txt.[0]);
-        out.print(ENCODER.encodeToString(privateKey.getEncoded()));
-        out.print(txt.[4]);
-
-        out.println();
-        out.println();
-
-        out.print(txt.[1]);
-        out.print(ENCODER.encodeToString(publicKey.getEncoded()));
-        out.print(txt.[5]);
-        out.println();
-    }
-
-
 }
