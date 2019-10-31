@@ -3,7 +3,7 @@ package com.borntocode;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-class RSAkeyGen {
+class RSAkeyGen implements Util {
 
     private Scanner IN = new Scanner(System.in);
 
