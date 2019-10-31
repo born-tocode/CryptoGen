@@ -5,15 +5,13 @@ import java.util.InputMismatchException;
 class RSAkeyGen implements Util {
 
     //fields 'in', 'out' and 'txt' are implemented by interface
-    private Generator generator = new Generator();
     private OutBuffer outBuffer = new OutBuffer();
-
 
     public static void main(String[] args) {
         RSAkeyGen keyGen = new RSAkeyGen();
 
         keyGen.mainFlowControl();
-
+        keyGen.close();
     }
 
     private void mainFlowControl() {
@@ -27,8 +25,8 @@ first dialog with user
         out.println("Please type a digit for strength of RSA:");
         out.println();
 
-        for (Integer k : generator.getKeysize().keySet()) {
-            Integer v = generator.getKeysize().get(k);
+        for (Integer k : outBuffer.generator.getKeysize().keySet()) {
+            Integer v = outBuffer.generator.getKeysize().get(k);
             out.print(k + ". " + v + " / ");
         }
 
@@ -44,17 +42,15 @@ first dialog with user
 
             switch (digFromUser) {
                 case 0:
-                    generator.setKeyLength(digFromUser);
                 case 1:
-                    generator.setKeyLength(digFromUser);
                 case 2:
-                    generator.setKeyLength(digFromUser);
                 case 3:
-                    generator.setKeyLength(digFromUser);
                 case 4:
-                    generator.setKeyLength(digFromUser);
                 case 5:
-                    generator.setKeyLength(digFromUser);
+                    outBuffer.generator.setKeyLength(digFromUser);
+                    break;
+                default:
+                    System.out.println("Your digit: " + digFromUser);
             }
         } catch (InputMismatchException e) {
             out.println("Incorrect choice.");
@@ -85,18 +81,25 @@ second dialog with user
             switch (strFromUser.toUpperCase()) {
                 case "Y":
                     outBuffer.printKeysToConsole();
+                    break;
                 case "N":
                     outBuffer.saveKeysToFiles();
+                    break;
                 case "Q":
                     in.close();
                     out.close();
                     System.exit(0);
+                    break;
+                default:
+                    System.out.println("Your " + strFromUser);
             }
-
         } catch (InputMismatchException e) {
             System.err.println("Bad choice. Try again.. or quit 'Q'");
         }
+    }
 
+    @Override
+    public void close() {
         in.close();
         out.close();
     }
