@@ -1,5 +1,7 @@
 package com.borntocode;
 
+import java.util.InputMismatchException;
+
 class RSAkeyGen implements Util {
 
     //fields 'in', 'out' and 'txt' are implemented by interface
@@ -16,6 +18,11 @@ class RSAkeyGen implements Util {
 
     private void mainFlowControl() {
         int digFromUser;
+        String strFromUser;
+
+/*
+first dialog with user
+*/
         out.println();
         out.println("Please type a digit for strength of RSA:");
         out.println();
@@ -27,54 +34,70 @@ class RSAkeyGen implements Util {
 
         out.println();
 
-        in.hasNextInt();
-        digFromUser = in.nextInt();
-        in.nextLine();
+        try {
+             /*
+            first switch statement, first response from user
+         */
+            in.hasNextInt();
+            digFromUser = in.nextInt();
+            in.nextLine();
 
-        switch (digFromUser) {
-
-
+            switch (digFromUser) {
+                case 0:
+                    generator.setKeyLength(digFromUser);
+                case 1:
+                    generator.setKeyLength(digFromUser);
+                case 2:
+                    generator.setKeyLength(digFromUser);
+                case 3:
+                    generator.setKeyLength(digFromUser);
+                case 4:
+                    generator.setKeyLength(digFromUser);
+                case 5:
+                    generator.setKeyLength(digFromUser);
+            }
+        } catch (InputMismatchException e) {
+            out.println("Incorrect choice.");
         }
 
 
-        String ans = null;
+        outBuffer.displayInfoAboutKeys();
+
+/*
+second dialog with user
+*/
 
         out.println();
         out.println(
                 "Do you want print buffer in this console(buffer are cleared " +
-                        "after end of program)? [ Y/N ]\nIf 'N' keys will automatically " +
-                        "saved to files without printing in this console.");
+                "after end of program)? [ Y/N ]\nIf 'N' keys will automatically " +
+                "saved to files without printing in this console.");
         out.println();
         out.println("'Q' terminate process.");
 
-//        try {
-//            while (ans == null) {
-//                ans = in.findInLine("[ynqYNQ][0-9]");
-//                in.nextLine();
-//                if (ans.equalsIgnoreCase("Y")) {
-//                    printKeysToConsole();
-//                } else if (ans.equalsIgnoreCase("N")) {
-//                    outBuffer.saveKeysToFiles();
-//                } else if (ans.equalsIgnoreCase("Q")) {
-//                    in.close();
-//                    out.close();
-//                    System.exit(0);
-//                }
-//            }
-//        } catch (InputMismatchException e) {
-//            System.err.println("Bad choice. Try again.. or quit 'Q'");
-//        } finally {
-//            mainFlowControl();
-//        }
-//    }
-//
-//    private int getKeyFromUser() {
-//
-//
-//        int key;
-//        in.hasNextInt();
-//        key = in.nextInt();
-//        in.nextLine();
-//        return key;
+        try {
+             /*
+            second switch statement, second response from user
+         */
+            strFromUser = in.findInLine("[ynqYNQ]");
+            in.nextLine();
+
+            switch (strFromUser.toUpperCase()) {
+                case "Y":
+                    outBuffer.printKeysToConsole();
+                case "N":
+                    outBuffer.saveKeysToFiles();
+                case "Q":
+                    in.close();
+                    out.close();
+                    System.exit(0);
+            }
+
+        } catch (InputMismatchException e) {
+            System.err.println("Bad choice. Try again.. or quit 'Q'");
+        }
+
+        in.close();
+        out.close();
     }
 }

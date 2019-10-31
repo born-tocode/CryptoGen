@@ -18,6 +18,10 @@ class Generator {
 
     void setKeyLength(int keyLength) {
         this.keyLength = keyLength;
+        if (keyLength >= 0) {
+            keyLength = keysize.get(keyLength);
+            generateKeys(keyLength);
+        }
     }
 
     SortedMap<Integer, Integer> getKeysize() {
@@ -54,7 +58,6 @@ class Generator {
         privateKey = keyPair.getPrivate();
         publicKey = keyPair.getPublic();
     }
-
 
 
 }

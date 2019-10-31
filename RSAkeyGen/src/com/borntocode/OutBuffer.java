@@ -15,16 +15,18 @@ class OutBuffer implements Util {
     private final Path FILE_PUB = Paths.get("publicKey.pub");
     private Base64.Encoder encoder = Base64.getEncoder();
 
-    private void displayInfoAboutKeys() {
-        out.println();
-        out.println(txt[2].toLowerCase() + ": " + generator.getPrivateKey().getFormat());
-        out.println(txt[3].toLowerCase() + ": " + generator.getPrivateKey().getAlgorithm());
-        out.println();
-        out.println(txt[6].toLowerCase() + ": " + generator.getPublicKey().getFormat());
-        out.println(txt[7].toLowerCase() + ": " + generator.getPublicKey().getAlgorithm());
+    void displayInfoAboutKeys() {
+        if (generator.getPrivateKey() != null) {
+            out.println();
+            out.println(txt[2].toLowerCase() + ": " + generator.getPrivateKey().getFormat());
+            out.println(txt[3].toLowerCase() + ": " + generator.getPrivateKey().getAlgorithm());
+            out.println();
+            out.println(txt[6].toLowerCase() + ": " + generator.getPublicKey().getFormat());
+            out.println(txt[7].toLowerCase() + ": " + generator.getPublicKey().getAlgorithm());
+        }
     }
 
-    private void printKeysToConsole() {
+    void printKeysToConsole() {
         out.print(txt[0]);
         out.print(encoder.encodeToString(generator.getPrivateKey().getEncoded()));
         out.print(txt[4]);
@@ -38,7 +40,7 @@ class OutBuffer implements Util {
         out.println();
     }
 
-    private void saveKeysToFiles() {
+    void saveKeysToFiles() {
 
         try (FileOutputStream fOutPrv = new FileOutputStream(FILE_PRV.toFile());
              FileOutputStream fOutPub = new FileOutputStream(FILE_PUB.toFile())
