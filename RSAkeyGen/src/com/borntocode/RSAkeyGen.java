@@ -28,13 +28,9 @@ class RSAkeyGen {
         RSAkeyGen keyGen = new RSAkeyGen();
         keyGen.prepareToGenerate();
 
-        int keyLength = keyGen.KEYSIZE.get(getKeyFromUser());
+        int keyLength = keyGen.KEYSIZE.get(keyGen.getKeyFromUser());
 
-        try {
-            keyGen.generator(keyLength);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+        keyGen.generator(keyLength);
         keyGen.displayInfoAboutKeys();
         keyGen.getAnswer();
 
