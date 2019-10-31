@@ -8,7 +8,6 @@ class Generator {
 
     private SortedMap<Integer, Integer> keysize = new TreeMap<>();
     private KeyPairGenerator keyPairGen;
-    private KeyPair keyPair;
     private PrivateKey privateKey;
     private PublicKey publicKey;
 
@@ -33,16 +32,16 @@ class Generator {
         keysize.put(5, 16384);
     }
 
-    private void generator(int keyLenght) {
+    private void generator(int keyLength) {
         try {
             keyPairGen = KeyPairGenerator.getInstance("RSA");
         } catch (NoSuchAlgorithmException e) {
             System.err.println("No such algorithm");
         }
 
-        keyPairGen.initialize(keyLenght);
+        keyPairGen.initialize(keyLength);
 
-        keyPair = keyPairGen.generateKeyPair();
+        KeyPair keyPair = keyPairGen.generateKeyPair();
         privateKey = keyPair.getPrivate();
         publicKey = keyPair.getPublic();
     }
