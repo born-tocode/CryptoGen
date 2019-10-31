@@ -19,8 +19,8 @@ class RSAkeyGen {
             "PRIVATE KEY FORMAT", "PRIVATE KEY ALGORITHM", "\n-----END RSA PRIVATE KEY-----",
             "\n-----END RSA PUBLIC KEY-----", "PUBLIC KEY FORMAT", "PUBLIC KEY ALGORITHM"
     };
-    private KeyPairGenerator kpg;
-    private KeyPair kp;
+    private KeyPairGenerator keyPairGen;
+    private KeyPair keyPair;
     private PrivateKey privateKey;
     private PublicKey publicKey;
 
@@ -56,7 +56,7 @@ class RSAkeyGen {
         }
 
         OUT.println();
-        
+
         int key;
         IN.hasNextInt();
         key = IN.nextInt();
@@ -70,8 +70,8 @@ class RSAkeyGen {
         OUT.println();
         OUT.println(
                 "Do you want print buffer in this console(buffer are cleared " +
-                "after end of program)? [ Y/N ]\nIf 'N' keys will automatically " +
-                "saved to files without printing in this console.");
+                        "after end of program)? [ Y/N ]\nIf 'N' keys will automatically " +
+                        "saved to files without printing in this console.");
         OUT.println();
         OUT.println("'Q' terminate process.");
 
@@ -97,23 +97,20 @@ class RSAkeyGen {
     }
 
     private void generator(int keyLenght) {
-        //TODO rename kpg to something more meaningful
-        try 
-        {
-            kpg = KeyPairGenerator.getInstance("RSA");
+        try {
+            keyPairGen = KeyPairGenerator.getInstance("RSA");
+        } catch (NoSuchAlgorithmException e) {
+            System.err.println("No such algorithm");
         }
-        catch(Exception e)
-        {}
-        
-        kpg.initialize(keyLenght);
 
-        kp = kpg.generateKeyPair();
-        privateKey = kp.getPrivate();
-        publicKey = kp.getPublic();
+        keyPairGen.initialize(keyLenght);
+
+        keyPair = keyPairGen.generateKeyPair();
+        privateKey = keyPair.getPrivate();
+        publicKey = keyPair.getPublic();
     }
 
-    
-     
+
     private void displayInfoAboutKeys() {
         OUT.println();
         OUT.println(TXT[2].toLowerCase() + ": " + privateKey.getFormat());
