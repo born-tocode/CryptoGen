@@ -3,7 +3,7 @@ package com.borntocode;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-abstract class Util {
+class Util {
 
     PrintWriter out = new PrintWriter(System.out, true);
     Scanner in = new Scanner(System.in);
