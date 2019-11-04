@@ -48,6 +48,8 @@ first dialog with user
                 case 4:
                 case 5:
                     outBuffer.generator.setKeyLength(digFromUser);
+                    outBuffer.generator.generateKeys();
+                    outBuffer.generator.extractKeys();
                     break;
                 default:
                     System.out.println("Your digit: " + digFromUser);

@@ -10,6 +10,7 @@ class Generator {
     private KeyPairGenerator keyPairGen;
     private PrivateKey privateKey;
     private PublicKey publicKey;
+    private KeyPair keyPair;
     private int keyLength;
 
     Generator() {
@@ -19,7 +20,6 @@ class Generator {
     void setKeyLength(int keyLength) {
         keyLength = keysize.get(keyLength);
         this.keyLength = keyLength;
-        generateKeys();
     }
 
     SortedMap<Integer, Integer> getKeysize() {
@@ -43,18 +43,19 @@ class Generator {
         keysize.put(5, 16384);
     }
 
-    private void generateKeys() {
+    void generateKeys() {
         try {
             keyPairGen = KeyPairGenerator.getInstance("RSA");
         } catch (NoSuchAlgorithmException e) {
             System.out.println("No such algorithm");
+        } finally {
+            keyPairGen.initialize(keyLength);
+            keyPair = keyPairGen.generateKeyPair();
         }
-        keyPairGen.initialize(keyLength);
+    }
 
-        KeyPair keyPair = keyPairGen.generateKeyPair();
+    void extractKeys() {
         privateKey = keyPair.getPrivate();
         publicKey = keyPair.getPublic();
     }
-
-
 }
