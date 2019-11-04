@@ -2,7 +2,7 @@ package com.borntocode;
 
 import java.util.InputMismatchException;
 
-class RSAkeyGen implements Util {
+class RSAkeyGen extends Util {
 
     //fields 'in', 'out' and 'txt' are implemented by interface
     private OutBuffer outBuffer = new OutBuffer();
@@ -11,7 +11,7 @@ class RSAkeyGen implements Util {
         RSAkeyGen keyGen = new RSAkeyGen();
 
         keyGen.mainFlowControl();
-        keyGen.close();
+        keyGen.closeIO();
     }
 
     private void mainFlowControl() {
@@ -96,11 +96,5 @@ second dialog with user
         } catch (InputMismatchException e) {
             System.err.println("Bad choice. Try again.. or quit 'Q'");
         }
-    }
-
-    @Override
-    public void close() {
-        in.close();
-        out.close();
     }
 }

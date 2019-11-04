@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
 
-class OutBuffer implements Util {
+class OutBuffer extends Util {
 
     //fields 'txt' and 'out' are implemented from interface
 
@@ -61,11 +61,5 @@ class OutBuffer implements Util {
             out.println("Input/output error");
             out.println(e.getMessage());
         }
-    }
-
-    @Override
-    public void close()
-    {
-
     }
 }

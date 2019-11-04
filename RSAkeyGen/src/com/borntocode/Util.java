@@ -3,9 +3,9 @@ package com.borntocode;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-interface Util {
+abstract class Util {
 
-    PrintWriter out = new PrintWriter(System.out,true);
+    PrintWriter out = new PrintWriter(System.out, true);
     Scanner in = new Scanner(System.in);
     String[] txt = {
             "\n-----BEGIN RSA PRIVATE KEY-----\n", "-----BEGIN RSA PUBLIC KEY-----\n",
@@ -13,5 +13,9 @@ interface Util {
             "\n-----END RSA PUBLIC KEY-----", "PUBLIC KEY FORMAT", "PUBLIC KEY ALGORITHM", "---------------"
     };
 
-    void close();
+    void closeIO() {
+        in.close();
+        out.close();
+    }
+
 }
