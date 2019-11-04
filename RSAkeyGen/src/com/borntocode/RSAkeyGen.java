@@ -4,7 +4,7 @@ import java.util.InputMismatchException;
 
 class RSAkeyGen extends Util {
 
-    //fields 'in', 'out' and 'txt' are implemented by interface
+    //fields 'in', 'out' and 'txt' are implemented by abstract class
     private OutBuffer outBuffer = new OutBuffer();
 
     public static void main(String[] args) {

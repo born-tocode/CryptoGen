@@ -8,7 +8,7 @@ import java.util.Base64;
 
 class OutBuffer extends Util {
 
-    //fields 'txt' and 'out' are implemented from interface
+    //fields 'txt' and 'out' are implemented by abstract class
 
     Generator generator = new Generator();
     private final Path FILE_PRV = Paths.get("privateKey.key");

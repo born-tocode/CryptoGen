@@ -46,11 +46,10 @@ class Generator {
     void generateKeys() {
         try {
             keyPairGen = KeyPairGenerator.getInstance("RSA");
-        } catch (NoSuchAlgorithmException e) {
-            System.out.println("No such algorithm");
-        } finally {
             keyPairGen.initialize(keyLength);
             keyPair = keyPairGen.generateKeyPair();
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("No such algorithm");
         }
     }
 
