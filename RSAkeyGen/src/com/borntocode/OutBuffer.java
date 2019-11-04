@@ -2,18 +2,18 @@ package com.borntocode;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
 
-class OutBuffer extends Util {
+class OutBuffer {
 
-    //fields 'txt' and 'out' are implemented by abstract class
-
-    Generator generator = new Generator();
+    private Generator generator = new Generator();
     private final Path FILE_PRV = Paths.get("privateKey.key");
     private final Path FILE_PUB = Paths.get("publicKey.pub");
     private Base64.Encoder encoder = Base64.getEncoder();
+    private PrintWriter out = new PrintWriter(System.out, true);
 
     void displayInfoAboutKeys() {
         out.println();

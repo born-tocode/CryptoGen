@@ -13,6 +13,8 @@ class Generator {
     private KeyPair keyPair;
     private int keyLength;
 
+    //todo: one-line initialization for List <Integer> instead Map
+
     Generator() {
         fillMapOfBits();
     }
@@ -43,14 +45,11 @@ class Generator {
         keysize.put(5, 16384);
     }
 
-    void generateKeys() {
-        try {
-            keyPairGen = KeyPairGenerator.getInstance("RSA");
-            keyPairGen.initialize(keyLength);
-            keyPair = keyPairGen.generateKeyPair();
-        } catch (NoSuchAlgorithmException e) {
-            System.out.println("No such algorithm");
-        }
+    void generateKeys() throws NoSuchAlgorithmException {
+        keyPairGen = KeyPairGenerator.getInstance("RSA");
+        keyPairGen.initialize(keyLength);
+        keyPair = keyPairGen.generateKeyPair();
+
     }
 
     void extractKeys() {

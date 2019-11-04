@@ -1,11 +1,17 @@
 package com.borntocode;
 
+import java.io.PrintWriter;
 import java.util.InputMismatchException;
+import java.util.Scanner;
 
-class RSAkeyGen extends Util {
+class RSAkeyGen {
 
-    //fields 'in', 'out' and 'txt' are implemented by abstract class
+    private Generator generator = new Generator();
     private OutBuffer outBuffer = new OutBuffer();
+    private PrintWriter out = new PrintWriter(System.out, true);
+    private Scanner in = new Scanner(System.in);
+
+    //todo: Internationalization + deleting Util
 
     public static void main(String[] args) {
         RSAkeyGen keyGen = new RSAkeyGen();
@@ -25,8 +31,8 @@ first dialog with user
         out.println("Please type a digit for strength of RSA:");
         out.println();
 
-        for (Integer k : outBuffer.generator.getKeysize().keySet()) {
-            Integer v = outBuffer.generator.getKeysize().get(k);
+        for (Integer k : generator.getKeysize().keySet()) {
+            Integer v = generator.getKeysize().get(k);
             out.print(k + ". " + v + " / ");
         }
 
@@ -47,12 +53,12 @@ first dialog with user
                 case 3:
                 case 4:
                 case 5:
-                    outBuffer.generator.setKeyLength(digFromUser);
-                    outBuffer.generator.generateKeys();
-                    outBuffer.generator.extractKeys();
+                    generator.setKeyLength(digFromUser);
+                    generator.generateKeys();
+                    generator.extractKeys();
                     break;
                 default:
-                    System.out.println("Your digit: " + digFromUser);
+                    out.println("Your digit: " + digFromUser);
             }
         } catch (InputMismatchException e) {
             out.println("Incorrect choice.");
@@ -68,8 +74,8 @@ second dialog with user
         out.println();
         out.println(
                 "Do you want print buffer in this console(buffer are cleared " +
-                "after end of program)? [ Y/N ]\nIf 'N' keys will automatically " +
-                "saved to files without printing in this console.");
+                        "after end of program)? [ Y/N ]\nIf 'N' keys will automatically " +
+                        "saved to files without printing in this console.");
         out.println();
         out.println("'Q' terminate process.");
 
@@ -93,10 +99,15 @@ second dialog with user
                     System.exit(0);
                     break;
                 default:
-                    System.out.println("Your " + strFromUser);
+                    out.println("Your " + strFromUser);
             }
         } catch (InputMismatchException e) {
             System.err.println("Bad choice. Try again.. or quit 'Q'");
         }
+    }
+
+    private void closeIO() {
+        in.close();
+        out.close();
     }
 }
