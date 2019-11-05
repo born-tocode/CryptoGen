@@ -11,13 +11,6 @@ class Generator {
     private PrivateKey privateKey;
     private PublicKey publicKey;
     private KeyPair keyPair;
-    private int keyLength;
-
-
-    void setKeyLength(int keyLength) {
-        keyLength = keysize.get(keyLength);
-        this.keyLength = keyLength;
-    }
 
     PrivateKey getPrivateKey() {
         return privateKey;
@@ -27,7 +20,7 @@ class Generator {
         return publicKey;
     }
 
-    void generateKeys() throws NoSuchAlgorithmException {
+    void generateKeys(int keyLength) throws NoSuchAlgorithmException {
         keyPairGen = KeyPairGenerator.getInstance("RSA");
         keyPairGen.initialize(keyLength);
         keyPair = keyPairGen.generateKeyPair();
