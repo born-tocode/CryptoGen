@@ -2,7 +2,6 @@ package com.borntocode;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
@@ -13,7 +12,6 @@ class OutBuffer {
     private final Path FILE_PRV = Paths.get("privateKey.key");
     private final Path FILE_PUB = Paths.get("publicKey.pub");
     private Base64.Encoder encoder = Base64.getEncoder();
-    private PrintWriter out = new PrintWriter(System.out, true);
 
     void saveKeysToFiles() {
 
@@ -29,12 +27,8 @@ class OutBuffer {
             fOutPub.write(encoder.encode(generator.getPublicKey().getEncoded()));
             fOutPub.write(txt[5].getBytes());
 
-            out.println("Keys are saved in program directory.");
-            out.println();
-            out.println();
         } catch (IOException e) {
-            out.println("Input/output error");
-            out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 }
