@@ -19,10 +19,6 @@ class Generator {
         this.keyLength = keyLength;
     }
 
-    SortedMap<Integer, Integer> getKeysize() {
-        return keysize;
-    }
-
     PrivateKey getPrivateKey() {
         return privateKey;
     }
