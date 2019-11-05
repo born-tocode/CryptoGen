@@ -1,8 +1,7 @@
 package com.borntocode;
 
-import java.io.PrintWriter;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 class RSAkeyGen {
 
@@ -10,8 +9,11 @@ class RSAkeyGen {
     private OutBuffer outBuffer = new OutBuffer();
     private PrintWriter out = new PrintWriter(System.out, true);
     private Scanner in = new Scanner(System.in);
+    private Base64.Encoder encoder = Base64.getEncoder();
+    private List<Integer> listSizesOfKeys = List.of(1024, 2048, 4096, 8192, 12288, 16384);
+    private ListIterator<Integer> listIterator = listSizesOfKeys.listIterator();
+    private ResourceBundle messages = ResourceBundle.getBundle("/resources/MessagesBundle.properties");
 
-    //todo: Internationalization + deleting Util
 
     public static void main(String[] args) {
         RSAkeyGen keyGen = new RSAkeyGen();
@@ -21,6 +23,7 @@ class RSAkeyGen {
     }
 
     private void mainFlowControl() {
+        int i = 0;
         int digFromUser;
         String strFromUser;
 
@@ -31,9 +34,10 @@ first dialog with user
         out.println("Please type a digit for strength of RSA:");
         out.println();
 
-        for (Integer k : generator.getKeysize().keySet()) {
-            Integer v = generator.getKeysize().get(k);
-            out.print(k + ". " + v + " / ");
+        while (listIterator.hasNext()) {
+            int sizeOfKeys = listIterator.next();
+            out.print(i + ". " + sizeOfKeys + " / ");
+            i++;
         }
 
         out.println();
@@ -91,7 +95,7 @@ second dialog with user
                     printKeysToConsole();
                     break;
                 case "N":
-                    outBuffer.saveKeysToFiles();
+//                    outBuffer.saveKeysToFiles();
                     break;
                 case "Q":
                     in.close();
@@ -106,29 +110,33 @@ second dialog with user
         }
     }
 
-    void displayInfoAboutKeys() {
+    private void displayInfoAboutKeys() {
         out.println();
-        out.println(txt[2].toLowerCase() + ": " + generator.getPrivateKey().getFormat());
-        out.println(txt[3].toLowerCase() + ": " + generator.getPrivateKey().getAlgorithm());
+        out.println(messages.getString("private.key.format").toLowerCase() + ": "
+                + generator.getPrivateKey().getFormat());
+        out.println(messages.getString("private.key.algorithm").toLowerCase() + ": "
+                + generator.getPrivateKey().getAlgorithm());
         out.println();
-        out.println(txt[6].toLowerCase() + ": " + generator.getPublicKey().getFormat());
-        out.println(txt[7].toLowerCase() + ": " + generator.getPublicKey().getAlgorithm());
-        out.print(txt[8]);
+        out.println(messages.getString("public.key.format").toLowerCase() + ": "
+                + generator.getPublicKey().getFormat());
+        out.println(messages.getString("public.key.algorithm").toLowerCase() + ": "
+                + generator.getPublicKey().getAlgorithm());
+        out.print(messages.getString("separator"));
     }
 
-    void printKeysToConsole() {
-        out.print(txt[0]);
+    private void printKeysToConsole() {
+        out.print(messages.getString("begin.rsa.private.key"));
         out.print(encoder.encodeToString(generator.getPrivateKey().getEncoded()));
-        out.print(txt[4]);
+        out.print(messages.getString("end.rsa.private.key"));
 
         out.println();
         out.println();
 
-        out.print(txt[1]);
+        out.print(messages.getString("begin.rsa.public.key"));
         out.print(encoder.encodeToString(generator.getPublicKey().getEncoded()));
-        out.print(txt[5]);
+        out.print(messages.getString("end.rsa.public.key"));
         out.println();
-        out.print(txt[8]);
+        out.print(messages.getString("separator"));
     }
 
     private void closeIO() {
