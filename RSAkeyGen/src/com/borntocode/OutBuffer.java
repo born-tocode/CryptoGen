@@ -15,31 +15,6 @@ class OutBuffer {
     private Base64.Encoder encoder = Base64.getEncoder();
     private PrintWriter out = new PrintWriter(System.out, true);
 
-    void displayInfoAboutKeys() {
-        out.println();
-        out.println(txt[2].toLowerCase() + ": " + generator.getPrivateKey().getFormat());
-        out.println(txt[3].toLowerCase() + ": " + generator.getPrivateKey().getAlgorithm());
-        out.println();
-        out.println(txt[6].toLowerCase() + ": " + generator.getPublicKey().getFormat());
-        out.println(txt[7].toLowerCase() + ": " + generator.getPublicKey().getAlgorithm());
-        out.print(txt[8]);
-    }
-
-    void printKeysToConsole() {
-        out.print(txt[0]);
-        out.print(encoder.encodeToString(generator.getPrivateKey().getEncoded()));
-        out.print(txt[4]);
-
-        out.println();
-        out.println();
-
-        out.print(txt[1]);
-        out.print(encoder.encodeToString(generator.getPublicKey().getEncoded()));
-        out.print(txt[5]);
-        out.println();
-        out.print(txt[8]);
-    }
-
     void saveKeysToFiles() {
 
         try (FileOutputStream fOutPrv = new FileOutputStream(FILE_PRV.toFile());

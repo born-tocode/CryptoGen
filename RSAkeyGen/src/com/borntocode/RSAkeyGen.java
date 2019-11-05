@@ -65,7 +65,7 @@ first dialog with user
         }
 
 
-        outBuffer.displayInfoAboutKeys();
+        displayInfoAboutKeys();
 
 /*
 second dialog with user
@@ -88,7 +88,7 @@ second dialog with user
 
             switch (strFromUser.toUpperCase()) {
                 case "Y":
-                    outBuffer.printKeysToConsole();
+                    printKeysToConsole();
                     break;
                 case "N":
                     outBuffer.saveKeysToFiles();
@@ -104,6 +104,31 @@ second dialog with user
         } catch (InputMismatchException e) {
             System.err.println("Bad choice. Try again.. or quit 'Q'");
         }
+    }
+
+    void displayInfoAboutKeys() {
+        out.println();
+        out.println(txt[2].toLowerCase() + ": " + generator.getPrivateKey().getFormat());
+        out.println(txt[3].toLowerCase() + ": " + generator.getPrivateKey().getAlgorithm());
+        out.println();
+        out.println(txt[6].toLowerCase() + ": " + generator.getPublicKey().getFormat());
+        out.println(txt[7].toLowerCase() + ": " + generator.getPublicKey().getAlgorithm());
+        out.print(txt[8]);
+    }
+
+    void printKeysToConsole() {
+        out.print(txt[0]);
+        out.print(encoder.encodeToString(generator.getPrivateKey().getEncoded()));
+        out.print(txt[4]);
+
+        out.println();
+        out.println();
+
+        out.print(txt[1]);
+        out.print(encoder.encodeToString(generator.getPublicKey().getEncoded()));
+        out.print(txt[5]);
+        out.println();
+        out.print(txt[8]);
     }
 
     private void closeIO() {
