@@ -1,6 +1,7 @@
 package com.borntocode;
 
-import java.io.*;
+import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 class RSAkeyGen {
@@ -12,7 +13,10 @@ class RSAkeyGen {
     private Base64.Encoder encoder = Base64.getEncoder();
     private List<Integer> listSizesOfKeys = List.of(1024, 2048, 4096, 8192, 12288, 16384);
     private ListIterator<Integer> listIterator = listSizesOfKeys.listIterator();
-    private ResourceBundle messages = ResourceBundle.getBundle("/resources/MessagesBundle.properties");
+    private int keyLength;
+    Locale currentLocale = new Locale("en", "US");
+    ResourceBundle messages = ResourceBundle.getBundle("MessagesBundle", currentLocale);
+
 
 
     public static void main(String[] args) {
@@ -23,7 +27,7 @@ class RSAkeyGen {
     }
 
     private void mainFlowControl() {
-        int i = 0;
+        int count = 0;
         int digFromUser;
         String strFromUser;
 
@@ -31,13 +35,13 @@ class RSAkeyGen {
 first dialog with user
 */
         out.println();
-        out.println("Please type a digit for strength of RSA:");
+        out.println(messages.getString("please.type.a.digit"));
         out.println();
 
         while (listIterator.hasNext()) {
             int sizeOfKeys = listIterator.next();
-            out.print(i + ". " + sizeOfKeys + " / ");
-            i++;
+            out.print(count + ". " + sizeOfKeys + " / ");
+            count++;
         }
 
         out.println();
@@ -57,14 +61,14 @@ first dialog with user
                 case 3:
                 case 4:
                 case 5:
-                    generator.setKeyLength(digFromUser);
-                    generator.generateKeys();
+                    setKeyLength(digFromUser);
+                    generator.generateKeys(getKeyLength());
                     generator.extractKeys();
                     break;
                 default:
                     out.println("Your digit: " + digFromUser);
             }
-        } catch (InputMismatchException e) {
+        } catch (InputMismatchException | NoSuchAlgorithmException e) {
             out.println("Incorrect choice.");
         }
 
@@ -76,12 +80,9 @@ second dialog with user
 */
 
         out.println();
-        out.println(
-                "Do you want print buffer in this console(buffer are cleared " +
-                        "after end of program)? [ Y/N ]\nIf 'N' keys will automatically " +
-                        "saved to files without printing in this console.");
+        out.println(messages.getString("do.you.want.print"));
         out.println();
-        out.println("'Q' terminate process.");
+        out.println(messages.getString("q.terminate.process"));
 
         try {
              /*
@@ -95,7 +96,7 @@ second dialog with user
                     printKeysToConsole();
                     break;
                 case "N":
-//                    outBuffer.saveKeysToFiles();
+                    outBuffer.saveKeysToFiles();
                     break;
                 case "Q":
                     in.close();
@@ -106,8 +107,17 @@ second dialog with user
                     out.println("Your " + strFromUser);
             }
         } catch (InputMismatchException e) {
-            System.err.println("Bad choice. Try again.. or quit 'Q'");
+            System.err.println(messages.getString("bad.choice.try.again.or.quit.q"));
         }
+    }
+
+
+    private void setKeyLength(int keyLength) {
+        this.keyLength = keyLength;
+    }
+
+    private int getKeyLength() {
+        return listSizesOfKeys.get(keyLength);
     }
 
     private void displayInfoAboutKeys() {
@@ -125,16 +135,18 @@ second dialog with user
     }
 
     private void printKeysToConsole() {
-        out.print(messages.getString("begin.rsa.private.key"));
-        out.print(encoder.encodeToString(generator.getPrivateKey().getEncoded()));
-        out.print(messages.getString("end.rsa.private.key"));
+        out.println(messages.getString("separator"));
+        out.println();
+        out.println(messages.getString("begin.rsa.private.key"));
+        out.println(encoder.encodeToString(generator.getPrivateKey().getEncoded()));
+        out.println(messages.getString("end.rsa.private.key"));
 
         out.println();
         out.println();
 
-        out.print(messages.getString("begin.rsa.public.key"));
-        out.print(encoder.encodeToString(generator.getPublicKey().getEncoded()));
-        out.print(messages.getString("end.rsa.public.key"));
+        out.println(messages.getString("begin.rsa.public.key"));
+        out.println(encoder.encodeToString(generator.getPublicKey().getEncoded()));
+        out.println(messages.getString("end.rsa.public.key"));
         out.println();
         out.print(messages.getString("separator"));
     }
