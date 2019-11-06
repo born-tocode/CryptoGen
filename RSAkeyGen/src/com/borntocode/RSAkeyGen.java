@@ -16,29 +16,18 @@ class RSAkeyGen {
     private ListIterator<Integer> listIterator = listSizesOfKeys.listIterator();
     private Locale currentLocale = new Locale("en", "US");
     private ResourceBundle messages = ResourceBundle.getBundle("MessagesBundle", currentLocale);
-    private int keyLength;
 
 
     public static void main(String[] args) {
         RSAkeyGen keyGen = new RSAkeyGen();
-
         keyGen.mainFlowControl();
         keyGen.closeIO();
     }
 
     private void mainFlowControl() {
-
         firstDialog();
-
         displayInfoAboutKeys();
-
         secondDialog();
-
-    }
-
-
-    private void setKeyLength(int keyLength) {
-        this.keyLength = keyLength;
     }
 
     private void firstDialog() {
@@ -46,7 +35,7 @@ class RSAkeyGen {
         int digFromUser;
 
         out.println();
-        out.println(messages.getString(messages.getString("dialog.please.type.a.digit")));
+        out.println(messages.getString("dialog.please.type.a.digit"));
         out.println();
 
         while (listIterator.hasNext()) {
@@ -66,8 +55,7 @@ class RSAkeyGen {
                 case 3:
                 case 4:
                 case 5:
-                    setKeyLength(digFromUser);
-                    generator.generateKeys(listSizesOfKeys.get(keyLength));
+                    generator.generateKeys(listSizesOfKeys.get(digFromUser));
                     generator.extractKeys();
                     break;
                 default:
@@ -80,40 +68,34 @@ class RSAkeyGen {
 
     private void secondDialog() {
         String strFromUser;
-        boolean flag = true;
 
         out.println();
         out.println(messages.getString(messages.getString("dialog.do.you.want.print")));
         out.println();
         out.println(messages.getString("dialog.q.terminate.process"));
 
-        do {
-            try {
-             /*
-            second switch statement, second response from user
-         */
-                strFromUser = in.findInLine("[ynqYNQ]");
-                in.nextLine();
+        try {
+            strFromUser = in.findInLine("[ynqYNQ]");
+            in.nextLine();
 
-                switch (strFromUser.toUpperCase()) {
-                    case "Y":
-                        printKeysToConsole();
-                        break;
-                    case "N":
-                        outBuffer.saveKeysToFiles();
-                        break;
-                    case "Q":
-                        in.close();
-                        out.close();
-                        System.exit(0);
-                        break;
-                    default:
-                        out.println("Your " + strFromUser);
-                }
-            } catch (InputMismatchException e) {
-                System.err.println(messages.getString("dialog.bad.choice.try.again.or.quit.q"));
+            switch (strFromUser.toUpperCase()) {
+                case "Y":
+                    printKeysToConsole();
+                    break;
+                case "N":
+                    outBuffer.saveKeysToFiles();
+                    break;
+                case "Q":
+                    in.close();
+                    out.close();
+                    System.exit(0);
+                    break;
+                default:
+                    out.println("Your " + strFromUser);
             }
-        } while (flag);
+        } catch (InputMismatchException e) {
+            System.err.println(messages.getString("dialog.bad.choice.try.again.or.quit.q"));
+        }
     }
 
     private void displayInfoAboutKeys() {
