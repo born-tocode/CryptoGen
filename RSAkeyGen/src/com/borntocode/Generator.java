@@ -17,11 +17,10 @@ class Generator {
         return publicKey;
     }
 
-    KeyPair generateKeys(int keyLength) throws NoSuchAlgorithmException {
+    void generateKeys(int keyLength) throws NoSuchAlgorithmException {
         keyPairGen = KeyPairGenerator.getInstance("RSA");
         keyPairGen.initialize(keyLength);
         keyPair = keyPairGen.generateKeyPair();
-        return keyPair;
     }
 
     void extractKeys() {
