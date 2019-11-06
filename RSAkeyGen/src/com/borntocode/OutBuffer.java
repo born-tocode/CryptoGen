@@ -23,13 +23,13 @@ class OutBuffer {
              FileOutputStream fOutPub = new FileOutputStream(FILE_PUB.toFile())
         ) {
 
-            fOutPrv.write(messages.getString("begin.rsa.private.key").getBytes());
+            fOutPrv.write(messages.getString("key.begin.rsa.private.key").getBytes());
             fOutPrv.write(encoder.encode(generator.getPrivateKey().getEncoded()));
-            fOutPrv.write(messages.getString("end.rsa.private.key").getBytes());
+            fOutPrv.write(messages.getString("key.end.rsa.private.key").getBytes());
 
-            fOutPub.write(messages.getString("begin.rsa.public.key").getBytes());
+            fOutPub.write(messages.getString("key.begin.rsa.public.key").getBytes());
             fOutPub.write(encoder.encode(generator.getPublicKey().getEncoded()));
-            fOutPub.write(messages.getString("end.rsa.public.key").getBytes());
+            fOutPub.write(messages.getString("key.end.rsa.public.key").getBytes());
 
         } catch (IOException e) {
             e.printStackTrace();
