@@ -13,9 +13,10 @@ class RSAkeyGen {
     private Base64.Encoder encoder = Base64.getEncoder();
     private List<Integer> listSizesOfKeys = List.of(1024, 2048, 4096, 8192, 12288, 16384);
     private ListIterator<Integer> listIterator = listSizesOfKeys.listIterator();
+    private Locale currentLocale = new Locale("en", "US");
+    private ResourceBundle messages = ResourceBundle.getBundle("MessagesBundle", currentLocale);
     private int keyLength;
-    Locale currentLocale = new Locale("en", "US");
-    ResourceBundle messages = ResourceBundle.getBundle("MessagesBundle", currentLocale);
+    
 
 
 

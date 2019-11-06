@@ -1,12 +1,9 @@
 package com.borntocode;
 
 import java.security.*;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 class Generator {
 
-    private SortedMap<Integer, Integer> keysize = new TreeMap<>();
     private KeyPairGenerator keyPairGen;
     private PrivateKey privateKey;
     private PublicKey publicKey;
