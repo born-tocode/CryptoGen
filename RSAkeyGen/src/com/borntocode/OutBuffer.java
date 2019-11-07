@@ -14,8 +14,6 @@ class OutBuffer {
     private final Path FILE_PRV = Paths.get("privateKey.key");
     private final Path FILE_PUB = Paths.get("publicKey.pub");
     private final Base64.Encoder encoder = Base64.getEncoder();
-    private final Locale currentLocale = new Locale("en", "US");
-    private final ResourceBundle messages = ResourceBundle.getBundle("MessagesBundle", currentLocale);
 
     void saveKeysToFiles() {
 
