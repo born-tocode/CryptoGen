@@ -1,4 +1,5 @@
 /.idea/
+/RSAkeyGen/out/production/
 /SignatureGen/
 /RSAkeyGen/.idea/
 /RSAkeyGen/*.key
