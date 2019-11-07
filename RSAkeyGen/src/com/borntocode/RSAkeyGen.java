@@ -21,13 +21,13 @@ class RSAkeyGen {
     public static void main(String[] args) {
         RSAkeyGen keyGen = new RSAkeyGen();
         keyGen.mainFlowControl();
-        keyGen.closeIO();
     }
 
     private void mainFlowControl() {
         firstDialog();
         displayInfoAboutKeys();
         secondDialog();
+        closeIO();
     }
 
     private void firstDialog() {
