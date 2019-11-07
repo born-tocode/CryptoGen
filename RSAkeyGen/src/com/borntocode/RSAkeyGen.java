@@ -7,15 +7,15 @@ import java.util.*;
 class RSAkeyGen {
 
     //todo: too many instances of Generator > OutBuffer doesn't work properly
-    private Generator generator = new Generator();
-    private OutBuffer outBuffer = new OutBuffer();
-    private PrintWriter out = new PrintWriter(System.out, true);
-    private Scanner in = new Scanner(System.in);
-    private Base64.Encoder encoder = Base64.getEncoder();
-    private List<Integer> listSizesOfKeys = List.of(1024, 2048, 4096, 8192, 12288, 16384);
-    private ListIterator<Integer> listIterator = listSizesOfKeys.listIterator();
-    private Locale currentLocale = new Locale("en", "US");
-    private ResourceBundle messages = ResourceBundle.getBundle("MessagesBundle", currentLocale);
+    private final Generator generator = new Generator();
+    private final OutBuffer outBuffer = new OutBuffer();
+    private final PrintWriter out = new PrintWriter(System.out, true);
+    private final Scanner in = new Scanner(System.in);
+    private final Base64.Encoder encoder = Base64.getEncoder();
+    private final List<Integer> listSizesOfKeys = List.of(1024, 2048, 4096, 8192, 12288, 16384);
+    private final ListIterator<Integer> listIterator = listSizesOfKeys.listIterator();
+    private final Locale currentLocale = new Locale("en", "US");
+    private final ResourceBundle messages = ResourceBundle.getBundle("MessagesBundle", currentLocale);
 
 
     public static void main(String[] args) {

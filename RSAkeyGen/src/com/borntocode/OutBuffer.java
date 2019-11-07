@@ -10,12 +10,12 @@ import java.util.ResourceBundle;
 
 class OutBuffer {
 
-    private Generator generator = new Generator();
+    private final Generator generator = new Generator();
     private final Path FILE_PRV = Paths.get("privateKey.key");
     private final Path FILE_PUB = Paths.get("publicKey.pub");
-    private Base64.Encoder encoder = Base64.getEncoder();
-    private Locale currentLocale = new Locale("en", "US");
-    private ResourceBundle messages = ResourceBundle.getBundle("MessagesBundle", currentLocale);
+    private final Base64.Encoder encoder = Base64.getEncoder();
+    private final Locale currentLocale = new Locale("en", "US");
+    private final ResourceBundle messages = ResourceBundle.getBundle("MessagesBundle", currentLocale);
 
     void saveKeysToFiles() {
 

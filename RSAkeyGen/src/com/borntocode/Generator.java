@@ -4,7 +4,6 @@ import java.security.*;
 
 class Generator {
 
-    private KeyPairGenerator keyPairGen;
     private PrivateKey privateKey;
     private PublicKey publicKey;
     private KeyPair keyPair;
@@ -18,7 +17,7 @@ class Generator {
     }
 
     void generateKeys(int keyLength) throws NoSuchAlgorithmException {
-        keyPairGen = KeyPairGenerator.getInstance("RSA");
+        KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance("RSA");
         keyPairGen.initialize(keyLength);
         keyPair = keyPairGen.generateKeyPair();
     }
