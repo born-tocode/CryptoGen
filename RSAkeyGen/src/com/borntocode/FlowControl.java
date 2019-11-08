@@ -1,20 +1,18 @@
 package com.borntocode;
 
-import java.io.PrintWriter;
+import java.io.PrintStream;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 class FlowControl {
 
-    //todo: local variables(var), return result to local variables, KeyDisplayer with hardcoded texts
+    //todo: local variables(var), return result to local variables, KeyPrinter with hardcoded texts
 
     private final Generator generator = new Generator();
     private final OutBuffer outBuffer = new OutBuffer();
-//    private final PrintWriter out = new PrintWriter(System.out, true);
+    private final KeyPrinter keyPrinter = new KeyPrinter();
+    private final PrintStream out = new PrintStream(System.out);
     private final Scanner in = new Scanner(System.in);
-    private final Base64.Encoder encoder = Base64.getEncoder();
-    private final List<Integer> listSizesOfKeys = List.of(1024, 2048, 4096, 8192, 12288, 16384);
-    private final ListIterator<Integer> listIterator = listSizesOfKeys.listIterator();
     private final Locale currentLocale = new Locale("en", "US");
     private final ResourceBundle messages = ResourceBundle.getBundle("MessagesBundle", currentLocale);
 
@@ -23,13 +21,14 @@ class FlowControl {
         firstDialog();
         displayInfoAboutKeys();
         secondDialog();
-//        closeIO();
+        closeIO();
     }
 
     private void firstDialog() {
-        PrintWriter out = new PrintWriter(System.out, true);
-        int count = 0;
-        int digFromUser;
+        var listSizesOfKeys = List.of(1024, 2048, 4096, 8192, 12288, 16384);
+        var listIterator = listSizesOfKeys.listIterator();
+        var count = 0;
+        var digFromUser = 0;
 
 
         out.println();
@@ -37,10 +36,12 @@ class FlowControl {
         out.println();
 
         while (listIterator.hasNext()) {
-            int sizeOfKeys = listIterator.next();
+            var sizeOfKeys = listIterator.next();
             out.print(count + ". " + sizeOfKeys + " / ");
             count++;
         }
+
+        out.println();
 
         try {
             in.hasNextInt();
@@ -53,8 +54,9 @@ class FlowControl {
                 case 3:
                 case 4:
                 case 5:
-                    generator.generateKeys(listSizesOfKeys.get(digFromUser));
-                    generator.extractKeys();
+                    var keyLength = listSizesOfKeys.get(digFromUser);
+                    var keys = generator.generateKeys(keyLength);
+                    keyPrinter.showKeys(keys);
                     break;
                 default:
                     out.println(messages.getString("dialog.bad.digit") + digFromUser);
@@ -62,12 +64,11 @@ class FlowControl {
         } catch (InputMismatchException | NoSuchAlgorithmException e) {
             out.println(messages.getString("dialog.incorrect.choice"));
         }
-        out.close();
+
     }
 
     private void secondDialog() {
-        PrintWriter out = new PrintWriter(System.out, true);
-        String strFromUser;
+        var strFromUser = "";
 
         out.println();
         out.println(messages.getString(messages.getString("dialog.do.you.want.print")));
@@ -99,7 +100,6 @@ class FlowControl {
     }
 
     private void displayInfoAboutKeys() {
-        PrintWriter out = new PrintWriter(System.out, true);
         out.println();
         out.println(messages.getString("info.private.key.format").toLowerCase() + ": "
                 + generator.getPrivateKey().getFormat());
@@ -114,25 +114,24 @@ class FlowControl {
     }
 
     private void printKeysToConsole() {
-        PrintWriter out = new PrintWriter(System.out, true);
         out.println(messages.getString("dialog.separator"));
         out.println();
         out.println(messages.getString("key.begin.rsa.private.key"));
-        out.println(encoder.encodeToString(generator.getPrivateKey().getEncoded()));
+        out.println(generator.getPrivateKey().getEncoded());
         out.println(messages.getString("key.end.rsa.private.key"));
 
         out.println();
         out.println();
 
         out.println(messages.getString("key.begin.rsa.public.key"));
-        out.println(encoder.encodeToString(generator.getPublicKey().getEncoded()));
+        out.println(generator.getPublicKey().getEncoded());
         out.println(messages.getString("key.end.rsa.public.key"));
         out.println();
         out.print(messages.getString("dialog.separator"));
     }
 
-//    private void closeIO() {
-//        in.close();
-//        out.close();
-//    }
+    private void closeIO() {
+        in.close();
+        out.close();
+    }
 }

@@ -6,6 +6,8 @@ class Generator {
 
     private PrivateKey privateKey;
     private PublicKey publicKey;
+    private KeyPair keyPair;
+
 
     PrivateKey getPrivateKey() {
         return privateKey;
@@ -18,7 +20,7 @@ class Generator {
     KeyPair generateKeys(int keyLength) throws NoSuchAlgorithmException {
         var keyPairGen = KeyPairGenerator.getInstance("RSA");
         keyPairGen.initialize(keyLength);
-        var keyPair = keyPairGen.generateKeyPair();
+        keyPair = keyPairGen.generateKeyPair();
         return keyPair;
     }
 

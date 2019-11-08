@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 class OutBuffer {
 
@@ -21,13 +19,13 @@ class OutBuffer {
              FileOutputStream fOutPub = new FileOutputStream(FILE_PUB.toFile())
         ) {
 
-            fOutPrv.write(messages.getString("key.begin.rsa.private.key").getBytes());
+            fOutPrv.write("-----BEGIN RSA PRIVATE KEY-----".getBytes());
             fOutPrv.write(encoder.encode(generator.getPrivateKey().getEncoded()));
-            fOutPrv.write(messages.getString("key.end.rsa.private.key").getBytes());
+            fOutPrv.write("-----END RSA PRIVATE KEY-----".getBytes());
 
-            fOutPub.write(messages.getString("key.begin.rsa.public.key").getBytes());
+            fOutPub.write("-----BEGIN RSA PUBLIC KEY-----".getBytes());
             fOutPub.write(encoder.encode(generator.getPublicKey().getEncoded()));
-            fOutPub.write(messages.getString("key.end.rsa.public.key").getBytes());
+            fOutPub.write("-----END RSA PUBLIC KEY-----".getBytes());
 
         } catch (IOException e) {
             e.printStackTrace();
