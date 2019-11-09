@@ -8,8 +8,6 @@ import java.util.List;
 
 class KeysProcessor {
 
-    private List<ByteBuffer> listWithKeys = new ArrayList<>();
-
     List<ByteBuffer> processKeys(KeyPair keyPair) {
         var encoder = Base64.getEncoder();
         var privateKey = keyPair.getPrivate();
@@ -23,6 +21,7 @@ class KeysProcessor {
         privateKeyStream.rewind();
         publicKeyStream.rewind();
 
+        var listWithKeys = new ArrayList<ByteBuffer>();
         listWithKeys.add(0, privateKeyStream);
         listWithKeys.add(1, publicKeyStream);
 
