@@ -8,7 +8,7 @@ import java.util.Base64;
 
 class OutBuffer {
 
-    private final Generator generator = new Generator();
+    private final KeysProcessor keysProcessor = new KeysProcessor();
     private final Path FILE_PRV = Paths.get("privateKey.key");
     private final Path FILE_PUB = Paths.get("publicKey.pub");
     private final Base64.Encoder encoder = Base64.getEncoder();
@@ -20,11 +20,11 @@ class OutBuffer {
         ) {
 
             fOutPrv.write("-----BEGIN RSA PRIVATE KEY-----".getBytes());
-            fOutPrv.write(encoder.encode(generator.getPrivateKey().getEncoded()));
+            fOutPrv.write(keysProcessor.getPrivateKeyStream());
             fOutPrv.write("-----END RSA PRIVATE KEY-----".getBytes());
 
             fOutPub.write("-----BEGIN RSA PUBLIC KEY-----".getBytes());
-            fOutPub.write(encoder.encode(generator.getPublicKey().getEncoded()));
+            fOutPub.write(keysProcessor.getPublicKeyStream());
             fOutPub.write("-----END RSA PUBLIC KEY-----".getBytes());
 
         } catch (IOException e) {

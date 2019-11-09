@@ -1,16 +1,17 @@
 package com.borntocode;
 
+import java.io.IOException;
 import java.io.PrintStream;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 class FlowControl {
 
-    //todo: local variables(var), return result to local variables, KeyPrinter with hardcoded texts
+    //todo: local variables(var), return result to local variables, KeysProcessor with hardcoded texts
 
     private final Generator generator = new Generator();
     private final OutBuffer outBuffer = new OutBuffer();
-    private final KeyPrinter keyPrinter = new KeyPrinter();
+    private final KeysProcessor keysProcessor = new KeysProcessor();
     private final PrintStream out = new PrintStream(System.out);
     private final Scanner in = new Scanner(System.in);
     private final Locale currentLocale = new Locale("en", "US");
@@ -19,7 +20,7 @@ class FlowControl {
 
     public void startMainLoop() {
         firstDialog();
-        displayInfoAboutKeys();
+//        displayInfoAboutKeys();
         secondDialog();
         closeIO();
     }
@@ -56,12 +57,12 @@ class FlowControl {
                 case 5:
                     var keyLength = listSizesOfKeys.get(digFromUser);
                     var keys = generator.generateKeys(keyLength);
-                    keyPrinter.showKeys(keys);
+                    keysProcessor.processKeys(keys);
                     break;
                 default:
                     out.println(messages.getString("dialog.bad.digit") + digFromUser);
             }
-        } catch (InputMismatchException | NoSuchAlgorithmException e) {
+        } catch (InputMismatchException | NoSuchAlgorithmException | IOException e) {
             out.println(messages.getString("dialog.incorrect.choice"));
         }
 
@@ -71,7 +72,7 @@ class FlowControl {
         var strFromUser = "";
 
         out.println();
-        out.println(messages.getString(messages.getString("dialog.do.you.want.print")));
+        out.println(messages.getString("dialog.do.you.want.print"));
         out.println();
         out.println(messages.getString("dialog.q.terminate.process"));
 
@@ -81,7 +82,7 @@ class FlowControl {
 
             switch (strFromUser.toUpperCase()) {
                 case "Y":
-                    printKeysToConsole();
+//                    printKeysToConsole();
                     break;
                 case "N":
                     outBuffer.saveKeysToFiles();
@@ -99,32 +100,32 @@ class FlowControl {
         }
     }
 
-    private void displayInfoAboutKeys() {
-        out.println();
-        out.println(messages.getString("info.private.key.format").toLowerCase() + ": "
-                + generator.getPrivateKey().getFormat());
-        out.println(messages.getString("info.private.key.algorithm").toLowerCase() + ": "
-                + generator.getPrivateKey().getAlgorithm());
-        out.println();
-        out.println(messages.getString("info.public.key.format").toLowerCase() + ": "
-                + generator.getPublicKey().getFormat());
-        out.println(messages.getString("info.public.key.algorithm").toLowerCase() + ": "
-                + generator.getPublicKey().getAlgorithm());
-        out.print(messages.getString("dialog.separator"));
-    }
+//    private void displayInfoAboutKeys() {
+//        out.println();
+//        out.println(messages.getString("info.private.key.format").toLowerCase() + ": "
+//                + generator.getPrivateKey().getFormat());
+//        out.println(messages.getString("info.private.key.algorithm").toLowerCase() + ": "
+//                + generator.getPrivateKey().getAlgorithm());
+//        out.println();
+//        out.println(messages.getString("info.public.key.format").toLowerCase() + ": "
+//                + generator.getPublicKey().getFormat());
+//        out.println(messages.getString("info.public.key.algorithm").toLowerCase() + ": "
+//                + generator.getPublicKey().getAlgorithm());
+//        out.print(messages.getString("dialog.separator"));
+//    }
 
-    private void printKeysToConsole() {
+    private void printKeysToConsole() throws IOException {
         out.println(messages.getString("dialog.separator"));
         out.println();
         out.println(messages.getString("key.begin.rsa.private.key"));
-        out.println(generator.getPrivateKey().getEncoded());
+        out.println(keysProcessor.getPrivateKeyStream().byteValue());
         out.println(messages.getString("key.end.rsa.private.key"));
 
         out.println();
         out.println();
 
         out.println(messages.getString("key.begin.rsa.public.key"));
-        out.println(generator.getPublicKey().getEncoded());
+        out.println(keysProcessor.getPublicKeyStream().byteValue());
         out.println(messages.getString("key.end.rsa.public.key"));
         out.println();
         out.print(messages.getString("dialog.separator"));
