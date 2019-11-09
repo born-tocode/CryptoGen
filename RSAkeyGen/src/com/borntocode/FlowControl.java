@@ -1,7 +1,7 @@
 package com.borntocode;
 
-import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.ByteBuffer;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
@@ -9,16 +9,14 @@ class FlowControl {
 
     //todo: local variables(var), return result to local variables, KeysProcessor with hardcoded texts
 
-    private final Generator generator = new Generator();
-    private final OutBuffer outBuffer = new OutBuffer();
-    private final KeysProcessor keysProcessor = new KeysProcessor();
     private final PrintStream out = new PrintStream(System.out);
     private final Scanner in = new Scanner(System.in);
     private final Locale currentLocale = new Locale("en", "US");
     private final ResourceBundle messages = ResourceBundle.getBundle("MessagesBundle", currentLocale);
+    private List<ByteBuffer> keysBuffer = new ArrayList<>();
 
 
-    public void startMainLoop() {
+    void startMainLoop() {
         firstDialog();
 //        displayInfoAboutKeys();
         secondDialog();
@@ -56,13 +54,13 @@ class FlowControl {
                 case 4:
                 case 5:
                     var keyLength = listSizesOfKeys.get(digFromUser);
-                    var keys = generator.generateKeys(keyLength);
-                    keysProcessor.processKeys(keys);
+                    var keys = new Generator().generateKeys(keyLength);
+                    keysBuffer = new KeysProcessor().processKeys(keys);
                     break;
                 default:
                     out.println(messages.getString("dialog.bad.digit") + digFromUser);
             }
-        } catch (InputMismatchException | NoSuchAlgorithmException | IOException e) {
+        } catch (InputMismatchException | NoSuchAlgorithmException e) {
             out.println(messages.getString("dialog.incorrect.choice"));
         }
 
@@ -82,10 +80,10 @@ class FlowControl {
 
             switch (strFromUser.toUpperCase()) {
                 case "Y":
-//                    printKeysToConsole();
+                    buildViewOfKeysToConsole(keysBuffer.get(0), keysBuffer.get(1));
                     break;
                 case "N":
-                    outBuffer.saveKeysToFiles();
+                    new OutBuffer().saveKeysToFiles(keysBuffer.get(0), keysBuffer.get(1));
                     break;
                 case "Q":
                     in.close();
@@ -114,18 +112,18 @@ class FlowControl {
 //        out.print(messages.getString("dialog.separator"));
 //    }
 
-    private void printKeysToConsole() throws IOException {
+    private void buildViewOfKeysToConsole(ByteBuffer privateKey, ByteBuffer publicKey) {
         out.println(messages.getString("dialog.separator"));
         out.println();
         out.println(messages.getString("key.begin.rsa.private.key"));
-        out.println(keysProcessor.getPrivateKeyStream().byteValue());
+        out.println(privateKey.get());
         out.println(messages.getString("key.end.rsa.private.key"));
 
         out.println();
         out.println();
 
         out.println(messages.getString("key.begin.rsa.public.key"));
-        out.println(keysProcessor.getPublicKeyStream().byteValue());
+        out.println(publicKey.get());
         out.println(messages.getString("key.end.rsa.public.key"));
         out.println();
         out.print(messages.getString("dialog.separator"));
