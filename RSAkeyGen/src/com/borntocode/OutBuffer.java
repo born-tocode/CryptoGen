@@ -13,16 +13,22 @@ class OutBuffer {
 
     void saveKeysToFiles(ByteBuffer privateKey, ByteBuffer publicKey) {
 
+        var splitStream = 50;
+
         try (FileOutputStream fOutPrv = new FileOutputStream(FILE_PRV.toFile());
              FileOutputStream fOutPub = new FileOutputStream(FILE_PUB.toFile())
         ) {
 
             fOutPrv.write("-----BEGIN RSA PRIVATE KEY-----".getBytes());
-            fOutPrv.write(privateKey.get());
+            fOutPrv.write('\n');
+            fOutPrv.write(privateKey.array());
+            fOutPrv.write('\n');
             fOutPrv.write("-----END RSA PRIVATE KEY-----".getBytes());
 
             fOutPub.write("-----BEGIN RSA PUBLIC KEY-----".getBytes());
-            fOutPub.write(publicKey.get());
+            fOutPrv.write('\n');
+            fOutPub.write(publicKey.array());
+            fOutPrv.write('\n');
             fOutPub.write("-----END RSA PUBLIC KEY-----".getBytes());
 
         } catch (IOException e) {
