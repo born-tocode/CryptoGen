@@ -1,9 +1,8 @@
 package com.borntocode;
 
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.nio.ByteBuffer;
-import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
@@ -19,8 +18,8 @@ class FlowControl {
 
     void startMainLoop() {
 //        do {
-            firstDialog();
-            secondDialog();
+        firstDialog();
+        secondDialog();
 //        } while (flag);
 
         closeIO(in, out);
@@ -95,44 +94,36 @@ class FlowControl {
                 default:
                     out.println("Your " + strFromUser);
             }
-        } catch (InputMismatchException | IOException e) {
+        } catch (InputMismatchException e) {
             System.err.println(messages.getString("dialog.bad.choice.try.again.or.quit.q"));
+        } catch (FileNotFoundException e) {
+            out.println("");
         }
     }
 
-    private void displayInfoAboutKeys(KeyPair keys) {
-        out.println();
-        out.println(messages.getString("info.private.key.format").toLowerCase() + ": "
-                + keys.getPrivate().getFormat());
-        out.println(messages.getString("info.private.key.algorithm").toLowerCase() + ": "
-                + keys.getPrivate().getAlgorithm());
-        out.println();
-        out.println(messages.getString("info.public.key.format").toLowerCase() + ": "
-                + keys.getPublic().getFormat());
-        out.println(messages.getString("info.public.key.algorithm").toLowerCase() + ": "
-                + keys.getPublic().getAlgorithm());
-        out.print(messages.getString("dialog.separator"));
-    }
-
     private void buildViewOfKeysToConsole(List<ByteBuffer> keysBuffer, String[] prvPub) {
-        var index = 0;
+        var nextString = 0;
+        var splitStream = 55;
 
-        try {
-            for (ByteBuffer key : keysBuffer) {
-                if (index == 0) out.println(messages.getString("dialog.separator"));
-                out.write('\n');
-                out.println(messages.getString("key.begin.rsa." + prvPub[index] + ".key"));
-                out.write(key.array());
-                out.write('\n');
-                out.println(messages.getString("key.end.rsa." + prvPub[index] + ".key"));
+        for (ByteBuffer key : keysBuffer) {
+            if (nextString == 0) out.println(messages.getString("dialog.separator"));
+            out.write('\n');
+            out.println(messages.getString("key.begin.rsa." + prvPub[nextString] + ".key"));
 
-                index++;
-
-                out.write('\n');
-                out.write('\n');
+            for (int i = 0, x = 0; i < key.array().length; i++, x++) {
+                if (x == splitStream) {
+                    out.write('\n');
+                    x = 0;
+                }
+                out.write(key.get(i));
             }
-        } catch (IOException e) {
-            out.println("I/O exception");
+            out.write('\n');
+            out.println(messages.getString("key.end.rsa." + prvPub[nextString] + ".key"));
+
+            nextString++;
+
+            out.write('\n');
+            out.write('\n');
         }
     }
 
