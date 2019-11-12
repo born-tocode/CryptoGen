@@ -18,9 +18,6 @@ class KeysProcessor {
         var privateKeyStream = ByteBuffer.wrap(privateKeyEncoded);
         var publicKeyStream = ByteBuffer.wrap(publicKeyEncoded);
 
-        privateKeyStream.rewind();
-        publicKeyStream.rewind();
-
         var listWithKeys = new ArrayList<ByteBuffer>();
         listWithKeys.add(0, privateKeyStream);
         listWithKeys.add(1, publicKeyStream);
