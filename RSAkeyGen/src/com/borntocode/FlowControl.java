@@ -12,7 +12,7 @@ class FlowControl {
     private final PrintStream out = new PrintStream(System.out);
     private final Scanner in = new Scanner(System.in);
     private final Locale currentLocale = new Locale("en", "US");
-    private final ResourceBundle messages = ResourceBundle.getBundle("MessagesBundle", currentLocale);
+    private final ResourceBundle messages = ResourceBundle.getBundle("Messages", currentLocale);
     private List<ByteBuffer> keysBuffer = new ArrayList<>();
     private boolean flag = true;
 
