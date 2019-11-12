@@ -24,17 +24,14 @@ class OutBuffer {
         listStreams.add(0, new FileOutputStream(FILE_PRV.toFile()));
         listStreams.add(1, new FileOutputStream(FILE_PUB.toFile()));
         var splitStream = 50;
-        var indexForString = 0;
-        var indexForStream = 0;
-        var out = listStreams.get(indexForStream);
+        var nextString = 0;
+        var nextStream = 0;
 
 
-
-
-        try {
-            for (ByteBuffer keys : keysBuffer) {
-                out.write(prvPub[indexForString].getBytes());
-                indexForString++;
+        for (ByteBuffer keys : keysBuffer) {
+            try (var out = listStreams.get(nextStream)) {
+                out.write(prvPub[nextString].getBytes());
+                nextString++;
                 out.write('\n');
 
                 for (int i = 0, x = 0; i < keys.array().length; i++, x++) {
@@ -45,20 +42,18 @@ class OutBuffer {
                     out.write(keys.get(i));
                 }
                 out.write('\n');
-                out.write(prvPub[indexForString].getBytes());
+                out.write(prvPub[nextString].getBytes());
 
-                if (indexForString == 1) indexForString++;
+                if (nextString == 1) nextString++;
 
-                if (indexForStream == 0) indexForStream++;
+                out.close();
+
+                if (nextStream == 0) nextStream++;
+            } catch (FileNotFoundException e) {
+                System.out.println("Can't save the keys");
+            } catch (IOException e) {
+                System.out.println("I/O exception");
             }
-
-        } catch (FileNotFoundException e) {
-            System.out.println("Can't save the keys");
-        } catch (IOException e) {
-            System.out.println("I/O exception");
-        } finally {
-            out.close();
-            out.close();
         }
     }
 }
