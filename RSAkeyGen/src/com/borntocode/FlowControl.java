@@ -86,7 +86,7 @@ class FlowControl {
                     buildViewOfKeysToConsole(keysBuffer, prvPub);
                     break;
                 case "N":
-                    new OutBuffer().saveKeysToFiles(keysBuffer.get(0), keysBuffer.get(1));
+                    new OutBuffer().saveKeysToFiles(keysBuffer);
                     break;
                 case "Q":
                     flag = false;
@@ -95,7 +95,7 @@ class FlowControl {
                 default:
                     out.println("Your " + strFromUser);
             }
-        } catch (InputMismatchException e) {
+        } catch (InputMismatchException | IOException e) {
             System.err.println(messages.getString("dialog.bad.choice.try.again.or.quit.q"));
         }
     }
