@@ -17,11 +17,8 @@ class FlowControl {
 
 
     void startMainLoop() {
-//        do {
         firstDialog();
         secondDialog();
-//        } while (flag);
-
         closeIO(in, out);
     }
 
