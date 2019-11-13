@@ -13,13 +13,11 @@ class FlowControl {
     private final Locale currentLocale = new Locale("en", "US");
     private final ResourceBundle messages = ResourceBundle.getBundle("Messages", currentLocale);
     private List<ByteBuffer> keysBuffer = new ArrayList<>();
-    private boolean flag = true;
-
 
     void startMainLoop() {
         firstDialog();
         secondDialog();
-        closeIO(in, out);
+        restartProgram();
     }
 
     private void firstDialog() {
@@ -66,7 +64,6 @@ class FlowControl {
 
     private void secondDialog() {
         final String[] prvPub = {"private", "public"};
-        var strFromUser = "";
 
         out.println();
         out.println(messages.getString("dialog.do.you.want.print"));
@@ -74,7 +71,7 @@ class FlowControl {
         out.println(messages.getString("dialog.q.terminate.process"));
 
         try {
-            strFromUser = in.findInLine("[ynqYNQ]");
+            var strFromUser = in.findInLine("[ynqYNQ]");
             in.nextLine();
 
             switch (strFromUser.toUpperCase()) {
@@ -85,9 +82,7 @@ class FlowControl {
                     new OutBuffer().saveKeysToFiles(keysBuffer);
                     break;
                 case "Q":
-                    flag = false;
-                    closeIO(in, out);
-                    System.exit(0);
+                    closeIOAndExit(in, out);
                 default:
                     out.println("Your " + strFromUser);
             }
@@ -124,8 +119,34 @@ class FlowControl {
         }
     }
 
-    private void closeIO(Scanner in, PrintStream out) {
+    private void restartProgram() {
+        var flag = true;
+        out.println(messages.getString("dialog.separator"));
+        out.println(messages.getString("dialog.restart.program.or.quit"));
+
+        do {
+            try {
+                var strFromUser = in.findInLine("[ynYN]");
+                in.nextLine();
+
+                switch (strFromUser.toUpperCase()) {
+                    case "Y":
+                        startMainLoop();
+                        break;
+                    case "N":
+                    default:
+                        flag = false;
+                        closeIOAndExit(in, out);
+                }
+            } catch (InputMismatchException e) {
+                System.err.println(messages.getString("dialog.bad.choice.try.again.or.quit.q"));
+            }
+        } while (flag);
+    }
+
+    private void closeIOAndExit(Scanner in, PrintStream out) {
         in.close();
         out.close();
+        System.exit(0);
     }
 }

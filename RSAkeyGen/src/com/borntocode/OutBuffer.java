@@ -52,7 +52,7 @@ class OutBuffer {
 
                 if (nextStream == 0) nextStream++;
             } catch (FileNotFoundException e) {
-                System.out.println("Can't save the keys");
+                System.out.println("Can't find files");
             } catch (IOException e) {
                 System.out.println("I/O exception");
             }
