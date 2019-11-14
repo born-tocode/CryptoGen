@@ -1,8 +1,7 @@
 package com.borntocode;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
-import java.nio.ByteBuffer;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
@@ -12,7 +11,8 @@ class FlowControl {
     private final Scanner in = new Scanner(System.in);
     private final Locale currentLocale = new Locale("en", "US");
     private final ResourceBundle messages = ResourceBundle.getBundle("Messages", currentLocale);
-    private List<ByteBuffer> keysBuffer = new ArrayList<>();
+    private KeysProcessor keysProcessor = new KeysProcessor();
+    private int keyLength;
 
     void startMainLoop() {
         firstDialog();
@@ -22,8 +22,6 @@ class FlowControl {
 
     private void firstDialog() {
         var listSizesOfKeys = List.of(1024, 2048, 4096, 8192, 12288, 16384);
-        var listIterator = listSizesOfKeys.listIterator();
-        var count = 0;
         var digFromUser = 0;
 
 
@@ -31,11 +29,7 @@ class FlowControl {
         out.println(messages.getString("dialog.please.type.a.digit"));
         out.println();
 
-        while (listIterator.hasNext()) {
-            var sizeOfKeys = listIterator.next();
-            out.print(count + ". " + sizeOfKeys + " / ");
-            count++;
-        }
+        printKeySizeToConsole(listSizesOfKeys);
 
         out.println();
 
@@ -50,14 +44,12 @@ class FlowControl {
                 case 3:
                 case 4:
                 case 5:
-                    var keyLength = listSizesOfKeys.get(digFromUser);
-                    var keys = new Generator().generateKeys(keyLength);
-                    keysBuffer = new KeysProcessor().processKeys(keys);
+                    keyLength = listSizesOfKeys.get(digFromUser);
                     break;
                 default:
                     out.println(messages.getString("dialog.bad.digit") + digFromUser);
             }
-        } catch (InputMismatchException | NoSuchAlgorithmException e) {
+        } catch (InputMismatchException e) {
             out.println(messages.getString("dialog.incorrect.choice"));
         }
     }
@@ -76,43 +68,42 @@ class FlowControl {
 
             switch (strFromUser.toUpperCase()) {
                 case "Y":
-                    buildViewOfKeysToConsole(keysBuffer, prvPub);
+                    new Generator().generateKeysAndProcess(keyLength);
+                    printViewOfKeysToConsole(prvPub);
                     break;
                 case "N":
-                    new OutBuffer().saveKeysToFiles(keysBuffer);
+//                    new OutBuffer().saveKeysToFiles();
                     break;
                 case "Q":
                     closeIOAndExit(in, out);
                 default:
                     out.println("Your " + strFromUser);
             }
-        } catch (InputMismatchException e) {
+        } catch (InputMismatchException | IOException | NoSuchAlgorithmException e) {
             System.err.println(messages.getString("dialog.bad.choice.try.again.or.quit.q"));
-        } catch (FileNotFoundException e) {
-            out.println("");
         }
     }
 
-    private void buildViewOfKeysToConsole(List<ByteBuffer> keysBuffer, String[] prvPub) {
-        var nextString = 0;
-        var splitStream = 55;
+    private void printKeySizeToConsole(List<Integer> listSizesOfKeys) {
+        var count = 0;
+        for (int size : listSizesOfKeys) {
+            out.print(count + ". " + size + " / ");
+            count++;
+        }
+    }
 
-        for (ByteBuffer key : keysBuffer) {
-            if (nextString == 0) out.println(messages.getString("dialog.separator"));
+
+    private void printViewOfKeysToConsole(String[] prvPub) throws IOException {
+
+        for (int i = 0; i < 2; i++) {
+            if (i == 0) out.println(messages.getString("dialog.separator"));
             out.write('\n');
-            out.println(messages.getString("key.begin.rsa." + prvPub[nextString] + ".key"));
+            out.println(messages.getString("key.begin.rsa." + prvPub[i] + ".key"));
 
-            for (int i = 0, x = 0; i < key.array().length; i++, x++) {
-                if (x == splitStream) {
-                    out.write('\n');
-                    x = 0;
-                }
-                out.write(key.get(i));
-            }
+            keysProcessor.buildViewOfKeys(i);
+
             out.write('\n');
-            out.println(messages.getString("key.end.rsa." + prvPub[nextString] + ".key"));
-
-            nextString++;
+            out.println(messages.getString("key.end.rsa." + prvPub[i] + ".key"));
 
             out.write('\n');
             out.write('\n');

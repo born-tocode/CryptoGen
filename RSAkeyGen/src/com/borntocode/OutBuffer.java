@@ -10,47 +10,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 class OutBuffer {
+
     private final String[] PRV_PUB_TXT;
     private List<FileOutputStream> listStreams;
 
     OutBuffer() throws FileNotFoundException {
-        Path FILE_PRV = Paths.get("privateKey.key");
-        Path FILE_PUB = Paths.get("publicKey.pub");
+        Path filePrv = Paths.get("privateKey.key");
+        Path filePub = Paths.get("publicKey.pub");
         this.PRV_PUB_TXT = new String[]{
                 "-----BEGIN RSA PRIVATE KEY-----", "-----END RSA PRIVATE KEY-----",
                 "-----BEGIN RSA PUBLIC KEY-----", "-----END RSA PUBLIC KEY-----"
         };
         this.listStreams = new ArrayList<>();
-        listStreams.add(0, new FileOutputStream(FILE_PRV.toFile()));
-        listStreams.add(1, new FileOutputStream(FILE_PUB.toFile()));
+        listStreams.add(0, new FileOutputStream(filePrv.toFile()));
+        listStreams.add(1, new FileOutputStream(filePub.toFile()));
     }
 
 
     void saveKeysToFiles(List<ByteBuffer> keysBuffer) {
 
-        var splitStream = 55;
         var nextString = 0;
-        var nextStream = 0;
 
-        for (ByteBuffer keys : keysBuffer) {
-            try (var out = listStreams.get(nextStream)) {
+        for (int i = 0; i < 2; i++) {
+            try (var out = listStreams.get(i)) {
                 out.write(PRV_PUB_TXT[nextString].getBytes());
                 nextString++;
                 out.write('\n');
 
-                for (int i = 0, x = 0; i < keys.array().length; i++, x++) {
-                    if (x == splitStream) {
-                        out.write('\n');
-                        x = 0;
-                    }
-                    out.write(keys.get(i));
-                }
+
+                //todo put your code with keys
+
                 out.write('\n');
                 out.write(PRV_PUB_TXT[nextString].getBytes());
 
-                if (nextString == 1) nextString++;
+                if (i == 1) nextString++;
 
-                if (nextStream == 0) nextStream++;
             } catch (FileNotFoundException e) {
                 System.out.println("Can't find files");
             } catch (IOException e) {
