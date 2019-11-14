@@ -1,7 +1,9 @@
 /.idea/
 /RSAkeyGen/out/production/
+/Server/
 /SignatureGen/
 /RSAkeyGen/.idea/
+/RSAkeyGen/src/test/
 /RSAkeyGen/*.key
 /RSAkeyGen/*.pub
 /RSAkeyGen/*.iml
