@@ -1,14 +1,16 @@
 package com.borntocode;
 
-import java.io.IOException;
+import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 
 class Generator {
 
-    void generateKeysAndProcess(int keyLength) throws NoSuchAlgorithmException, IOException {
+    static KeyPair keyPair;
+
+    void generateKeys(int keyLength) throws NoSuchAlgorithmException {
         var keyPairGen = KeyPairGenerator.getInstance("RSA");
         keyPairGen.initialize(keyLength);
-        new KeysProcessor().processKeys(keyPairGen.generateKeyPair());
+        keyPair = keyPairGen.generateKeyPair();
     }
 }

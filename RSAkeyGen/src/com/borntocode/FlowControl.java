@@ -7,12 +7,18 @@ import java.util.*;
 
 class FlowControl {
 
-    private final PrintStream out = new PrintStream(System.out);
-    private final Scanner in = new Scanner(System.in);
-    private final Locale currentLocale = new Locale("en", "US");
-    private final ResourceBundle messages = ResourceBundle.getBundle("Messages", currentLocale);
-    private KeysProcessor keysProcessor = new KeysProcessor();
+    private final PrintStream out;
+    private final Scanner in;
+    private final ResourceBundle messages;
+    private KeysProcessor keysProcessor;
     private int keyLength;
+
+    FlowControl() throws IOException {
+        Locale currentLocale = new Locale("en", "US");
+        messages = ResourceBundle.getBundle("Messages", currentLocale);
+        in = new Scanner(System.in);
+        out = new PrintStream(System.out);
+    }
 
     void startMainLoop() {
         firstDialog();
@@ -68,7 +74,6 @@ class FlowControl {
 
             switch (strFromUser.toUpperCase()) {
                 case "Y":
-                    new Generator().generateKeysAndProcess(keyLength);
                     printViewOfKeysToConsole(prvPub);
                     break;
                 case "N":
@@ -93,14 +98,17 @@ class FlowControl {
     }
 
 
-    private void printViewOfKeysToConsole(String[] prvPub) throws IOException {
+    private void printViewOfKeysToConsole(String[] prvPub) throws IOException, NoSuchAlgorithmException {
 
         for (int i = 0; i < 2; i++) {
-            if (i == 0) out.println(messages.getString("dialog.separator"));
+            if (i == 0) {
+                out.println(messages.getString("dialog.separator"));
+                out.write('\n');
+            }
             out.write('\n');
             out.println(messages.getString("key.begin.rsa." + prvPub[i] + ".key"));
 
-            keysProcessor.buildViewOfKeys(i);
+            processAndBuildViewOfKeys(i);
 
             out.write('\n');
             out.println(messages.getString("key.end.rsa." + prvPub[i] + ".key"));
@@ -108,6 +116,12 @@ class FlowControl {
             out.write('\n');
             out.write('\n');
         }
+    }
+
+    private void processAndBuildViewOfKeys(int whichKey) throws IOException, NoSuchAlgorithmException {
+        new Generator().generateKeys(keyLength);
+        keysProcessor = new KeysProcessor();
+        keysProcessor.buildViewOfKeys(whichKey);
     }
 
     private void restartProgram() {
