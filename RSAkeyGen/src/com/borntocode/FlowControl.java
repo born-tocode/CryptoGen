@@ -61,7 +61,6 @@ class FlowControl {
     }
 
     private void secondDialog() {
-        final String[] prvPub = {"private", "public"};
 
         out.println();
         out.println(messages.getString("dialog.do.you.want.print"));
@@ -74,7 +73,7 @@ class FlowControl {
 
             switch (strFromUser.toUpperCase()) {
                 case "Y":
-                    printViewOfKeysToConsole(prvPub);
+                    printViewOfKeysToConsole();
                     break;
                 case "N":
 //                    new OutBuffer().saveKeysToFiles();
@@ -98,7 +97,8 @@ class FlowControl {
     }
 
 
-    private void printViewOfKeysToConsole(String[] prvPub) throws IOException, NoSuchAlgorithmException {
+    private void printViewOfKeysToConsole() throws IOException, NoSuchAlgorithmException {
+        final String[] keyPairView = {"private", "public"};
 
         for (int i = 0; i < 2; i++) {
             if (i == 0) {
@@ -106,21 +106,22 @@ class FlowControl {
                 out.write('\n');
             }
             out.write('\n');
-            out.println(messages.getString("key.begin.rsa." + prvPub[i] + ".key"));
+            out.println(messages.getString("key.begin.rsa." + keyPairView[i] + ".key"));
 
-            processAndBuildViewOfKeys(i);
+            processAndBuildViewOfKeys(i,keyLength);
 
             out.write('\n');
-            out.println(messages.getString("key.end.rsa." + prvPub[i] + ".key"));
+            out.println(messages.getString("key.end.rsa." + keyPairView[i] + ".key"));
 
             out.write('\n');
             out.write('\n');
         }
     }
 
-    private void processAndBuildViewOfKeys(int whichKey) throws IOException, NoSuchAlgorithmException {
-        new Generator().generateKeys(keyLength);
+    private void processAndBuildViewOfKeys(int whichKey, int keyLength) throws IOException, NoSuchAlgorithmException {
         keysProcessor = new KeysProcessor();
+        keysProcessor.generateKeys(keyLength);
+        keysProcessor.processKeys();
         keysProcessor.buildViewOfKeys(whichKey);
     }
 
