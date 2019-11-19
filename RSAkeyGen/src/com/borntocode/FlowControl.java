@@ -108,7 +108,9 @@ class FlowControl {
             out.write('\n');
             out.println(messages.getString("key.begin.rsa." + keyPairView[i] + ".key"));
 
-            processAndBuildViewOfKeys(i,keyLength);
+            generateKeys(keyLength);
+            processKeys();
+            buildViewOfKeys(i);
 
             out.write('\n');
             out.println(messages.getString("key.end.rsa." + keyPairView[i] + ".key"));
@@ -118,10 +120,16 @@ class FlowControl {
         }
     }
 
-    private void processAndBuildViewOfKeys(int whichKey, int keyLength) throws IOException, NoSuchAlgorithmException {
+    private void generateKeys(int keyLength) throws NoSuchAlgorithmException {
         keysProcessor = new KeysProcessor();
         keysProcessor.generateKeys(keyLength);
+    }
+
+    private void processKeys() throws IOException {
         keysProcessor.processKeys();
+    }
+
+    private void buildViewOfKeys(int whichKey) throws IOException {
         keysProcessor.buildViewOfKeys(whichKey);
     }
 
