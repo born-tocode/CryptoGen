@@ -76,7 +76,7 @@ class FlowControl {
                     printViewOfKeysToConsole();
                     break;
                 case "N":
-//                    new OutBuffer().saveKeysToFiles();
+                    new OutBuffer().saveKeysToFiles(keyLength);
                     break;
                 case "Q":
                     closeIOAndExit(in, out);
@@ -108,9 +108,10 @@ class FlowControl {
             out.write('\n');
             out.println(messages.getString("key.begin.rsa." + keyPairView[i] + ".key"));
 
-            generateKeys(keyLength);
-            processKeys();
-            buildViewOfKeys(i);
+            keysProcessor = new KeysProcessor();
+            keysProcessor.generateKeys(keyLength);
+            keysProcessor.processKeys();
+            keysProcessor.buildViewOfKeysToConsole(i);
 
             out.write('\n');
             out.println(messages.getString("key.end.rsa." + keyPairView[i] + ".key"));
@@ -118,19 +119,6 @@ class FlowControl {
             out.write('\n');
             out.write('\n');
         }
-    }
-
-    private void generateKeys(int keyLength) throws NoSuchAlgorithmException {
-        keysProcessor = new KeysProcessor();
-        keysProcessor.generateKeys(keyLength);
-    }
-
-    private void processKeys() throws IOException {
-        keysProcessor.processKeys();
-    }
-
-    private void buildViewOfKeys(int whichKey) throws IOException {
-        keysProcessor.buildViewOfKeys(whichKey);
     }
 
     private void restartProgram() {
