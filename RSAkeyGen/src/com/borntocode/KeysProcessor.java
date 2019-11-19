@@ -44,26 +44,23 @@ class KeysProcessor {
     }
 
     private byte[] splitKeyAlgorithm(byte[] oldKey) {
-        final int newLine = 55;
-        final int length = 55;
-        final int lastComplementaryLoop = 1;
-        final int newKeyLength = oldKey.length + oldKey.length / newLine;
-        final int numbOfLoops = newKeyLength / newLine + lastComplementaryLoop;
-        var dstPos = 0;
-        var srcPos = 0;
-        var range = 55;
+        var length = 54;
+        var fullLengthOfSegment = length + 1;
+        var newLine = 55;
+        var position = 0;
+        var  count = 0;
+        byte byteOfNewLine = 10;
+        final int newKeyLength = oldKey.length + oldKey.length / fullLengthOfSegment;
         byte[] newKey = new byte[newKeyLength];
 
-        for (int i = 0; i < numbOfLoops; i++) {
-            if (range < oldKey.length) {
-                System.arraycopy(oldKey, srcPos, newKey, dstPos, length);
-                newKey[range] = '\n';
-                srcPos = range;
-                dstPos = range + 1;
-                range += newLine;
+        for (int i = 0; i < oldKey.length; i++) {
+            if (count == newLine) {
+                count = 0;
+                newKey[i] = byteOfNewLine;
             } else {
-                //lastComplementaryLoop
-                System.arraycopy(oldKey, srcPos, newKey, dstPos, oldKey.length - srcPos);
+                count++;
+                newKey[i] = oldKey[position];
+                position++;
             }
         }
         return newKey;
