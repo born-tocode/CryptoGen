@@ -3,14 +3,15 @@ package com.borntocode;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
 class OutBuffer {
 
+    private KeysProcessor keysProcessor;
     private final String[] PRV_PUB_TXT;
     private List<FileOutputStream> listStreams;
 
@@ -26,19 +27,21 @@ class OutBuffer {
         listStreams.add(1, new FileOutputStream(filePub.toFile()));
     }
 
-
-    void saveKeysToFiles(List<ByteBuffer> keysBuffer) {
+    void saveKeysToFiles(int keyLength) throws IOException {
 
         var nextString = 0;
+        var numberOfFiles = 2;
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < numberOfFiles; i++) {
             try (var out = listStreams.get(i)) {
                 out.write(PRV_PUB_TXT[nextString].getBytes());
                 nextString++;
                 out.write('\n');
 
-
-                //todo put your code with keys
+                keysProcessor = new KeysProcessor();
+                keysProcessor.generateKeys(keyLength);
+                keysProcessor.processKeys();
+                out.write(keysProcessor.buildViewOfKeysToFile(i));
 
                 out.write('\n');
                 out.write(PRV_PUB_TXT[nextString].getBytes());
@@ -47,8 +50,10 @@ class OutBuffer {
 
             } catch (FileNotFoundException e) {
                 System.out.println("Can't find files");
-            } catch (IOException e) {
+            } catch (IOException | NoSuchAlgorithmException e) {
                 System.out.println("I/O exception");
+            } finally {
+                listStreams.get(i).close();
             }
         }
     }

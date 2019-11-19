@@ -19,10 +19,6 @@ class KeysProcessor {
         this.keysBuffer = new ArrayList<>();
     }
 
-    public KeyPair getKeyPair() {
-        return keyPair;
-    }
-
     void generateKeys(int keyLength) throws NoSuchAlgorithmException {
         var keyPairGen = KeyPairGenerator.getInstance("RSA");
         keyPairGen.initialize(keyLength);
@@ -48,7 +44,7 @@ class KeysProcessor {
         var fullLengthOfSegment = length + 1;
         var newLine = 55;
         var position = 0;
-        var  count = 0;
+        var count = 0;
         byte byteOfNewLine = 10;
         final int newKeyLength = oldKey.length + oldKey.length / fullLengthOfSegment;
         byte[] newKey = new byte[newKeyLength];
@@ -66,8 +62,12 @@ class KeysProcessor {
         return newKey;
     }
 
-    void buildViewOfKeys(int whichKey) throws IOException {
+    void buildViewOfKeysToConsole(int whichKey) throws IOException {
         if (whichKey == 0) keysBuffer.get(whichKey).writeTo(new PrintStream(System.out));
         else if (whichKey == 1) keysBuffer.get(whichKey).writeTo(new PrintStream(System.out));
+    }
+
+    byte[] buildViewOfKeysToFile(int whichKey) {
+        return keysBuffer.get(whichKey).toByteArray();
     }
 }
