@@ -11,7 +11,7 @@ class FlowControl {
     private final PrintStream out;
     private final Scanner in;
     private final ResourceBundle messages;
-    private Map<String, SortedSet<Integer>> keySizeRestrictions;
+    private Map<String, Set<Integer>> keySizeRestrictions;
     private Integer keySize;
     private String algorithmName;
 
@@ -31,7 +31,7 @@ class FlowControl {
     }
 
     private void firstDialog() {
-        keySizeRestrictions.put("RSA", LinkedList<Integer>.addAll() );
+        keySizeRestrictions.put("RSA", Set.of(1024, 2048, 4096, 8192, 12288, 16384));
         keySizeRestrictions.put("EC", Set.of(112, 256, 571));
         keySizeRestrictions.put("DiffieHellman", Set.of(512, 1024, 1536, 2048, 3072, 4096, 6144, 8192));
         keySizeRestrictions.put("DSA", Set.of(512, 1024, 2048, 3072));
