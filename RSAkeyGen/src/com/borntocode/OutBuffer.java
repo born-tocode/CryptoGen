@@ -27,7 +27,7 @@ class OutBuffer {
         listStreams.add(1, new FileOutputStream(filePub.toFile()));
     }
 
-    void saveKeysToFiles(int keyLength) throws IOException {
+    void saveKeysToFiles(String algorithmName, int keySize) throws IOException {
 
         var nextString = 0;
         var numberOfFiles = 2;
@@ -39,7 +39,7 @@ class OutBuffer {
                 out.write('\n');
 
                 keysProcessor = new KeysProcessor();
-                keysProcessor.generateKeys(keyLength);
+                keysProcessor.generateKeys(algorithmName, keySize);
                 keysProcessor.processKeys();
                 out.write(keysProcessor.buildViewOfKeysToFile(i));
 

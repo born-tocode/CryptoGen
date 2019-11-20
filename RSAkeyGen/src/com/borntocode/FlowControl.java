@@ -1,5 +1,6 @@
 package com.borntocode;
 
+import java.awt.List;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.security.NoSuchAlgorithmException;
@@ -7,35 +8,42 @@ import java.util.*;
 
 class FlowControl {
 
+    private KeysProcessor keysProcessor;
     private final PrintStream out;
     private final Scanner in;
     private final ResourceBundle messages;
-    private KeysProcessor keysProcessor;
-    private int keyLength;
+    private Map<String, LinkedList<Integer>> keySizeRestrictions;
+    private Integer keySize;
+    private String algorithmName;
 
-    FlowControl() throws IOException {
+    FlowControl() {
         Locale currentLocale = new Locale("en", "US");
         messages = ResourceBundle.getBundle("Messages", currentLocale);
         in = new Scanner(System.in);
         out = new PrintStream(System.out);
+        keySizeRestrictions = new LinkedHashMap<>();
     }
 
     void startMainLoop() {
         firstDialog();
         secondDialog();
+        thirdDialog();
         restartProgram();
     }
 
     private void firstDialog() {
-        var listSizesOfKeys = List.of(1024, 2048, 4096, 8192, 12288, 16384);
+        keySizeRestrictions.put("RSA", LinkedList<Integer>.addAll() );
+        keySizeRestrictions.put("EC", Set.of(112, 256, 571));
+        keySizeRestrictions.put("DiffieHellman", Set.of(512, 1024, 1536, 2048, 3072, 4096, 6144, 8192));
+        keySizeRestrictions.put("DSA", Set.of(512, 1024, 2048, 3072));
+
         var digFromUser = 0;
 
-
         out.println();
-        out.println(messages.getString("dialog.please.type.a.digit"));
+        out.println(messages.getString("dialog.please.select.algorithm"));
         out.println();
 
-        printKeySizeToConsole(listSizesOfKeys);
+        printAlgorithmsToConsole(keySizeRestrictions);
 
         out.println();
 
@@ -48,9 +56,8 @@ class FlowControl {
                 case 1:
                 case 2:
                 case 3:
-                case 4:
-                case 5:
-                    keyLength = listSizesOfKeys.get(digFromUser);
+                    var algorithmArray = keySizeRestrictions.keySet().toArray();
+                    algorithmName = algorithmArray[digFromUser].toString();
                     break;
                 default:
                     out.println(messages.getString("dialog.bad.digit") + digFromUser);
@@ -61,7 +68,30 @@ class FlowControl {
     }
 
     private void secondDialog() {
+        var digFromUser = 0;
 
+        out.println();
+        out.println(messages.getString("dialog.please.type.a.digit." + algorithmName));
+
+        printKeySizeToConsole(keySizeRestrictions, algorithmName);
+
+        out.println();
+
+        try {
+            in.hasNextInt();
+            digFromUser = in.nextInt();
+            in.nextLine();
+
+            var keySizeSet = keySizeRestrictions.get(algorithmName);
+            keySize = Integer.parseInt(keySizeSet.toArray()[digFromUser].toString());
+        } catch (InputMismatchException e) {
+            out.println(messages.getString("dialog.incorrect.choice"));
+        }
+    }
+
+    private void thirdDialog() {
+
+        out.println(messages.getString("dialog.separator"));
         out.println();
         out.println(messages.getString("dialog.do.you.want.print"));
         out.println();
@@ -76,7 +106,7 @@ class FlowControl {
                     printViewOfKeysToConsole();
                     break;
                 case "N":
-                    new OutBuffer().saveKeysToFiles(keyLength);
+                    new OutBuffer().saveKeysToFiles(algorithmName, keySize);
                     break;
                 case "Q":
                     closeIOAndExit(in, out);
@@ -88,10 +118,18 @@ class FlowControl {
         }
     }
 
-    private void printKeySizeToConsole(List<Integer> listSizesOfKeys) {
+    private void printAlgorithmsToConsole(Map<String, Set<Integer>> keySizeRestrictions) {
         var count = 0;
-        for (int size : listSizesOfKeys) {
-            out.print(count + ". " + size + " / ");
+        for (String algorithm : keySizeRestrictions.keySet()) {
+            out.print(count + ". " + algorithm + " / ");
+            count++;
+        }
+    }
+
+    private void printKeySizeToConsole(Map<String, Set<Integer>> keySizeRestrictions, String algorithm) {
+        var count = 0;
+        for (Integer keySize : keySizeRestrictions.get(algorithm)) {
+            out.print(count + ". " + keySize + " / ");
             count++;
         }
     }
@@ -109,7 +147,7 @@ class FlowControl {
             out.println(messages.getString("key.begin.rsa." + keyPairView[i] + ".key"));
 
             keysProcessor = new KeysProcessor();
-            keysProcessor.generateKeys(keyLength);
+            keysProcessor.generateKeys(algorithmName, keySize);
             keysProcessor.processKeys();
             keysProcessor.buildViewOfKeysToConsole(i);
 

@@ -19,9 +19,9 @@ class KeysProcessor {
         this.keysBuffer = new ArrayList<>();
     }
 
-    void generateKeys(int keyLength) throws NoSuchAlgorithmException {
-        var keyPairGen = KeyPairGenerator.getInstance("RSA");
-        keyPairGen.initialize(keyLength);
+    void generateKeys(String algorithmName, int keySize) throws NoSuchAlgorithmException {
+        var keyPairGen = KeyPairGenerator.getInstance(algorithmName);
+        keyPairGen.initialize(keySize);
         keyPair = keyPairGen.generateKeyPair();
     }
 
@@ -63,8 +63,7 @@ class KeysProcessor {
     }
 
     void buildViewOfKeysToConsole(int whichKey) throws IOException {
-        if (whichKey == 0) keysBuffer.get(whichKey).writeTo(new PrintStream(System.out));
-        else if (whichKey == 1) keysBuffer.get(whichKey).writeTo(new PrintStream(System.out));
+        keysBuffer.get(whichKey).writeTo(new PrintStream(System.out));
     }
 
     byte[] buildViewOfKeysToFile(int whichKey) {
