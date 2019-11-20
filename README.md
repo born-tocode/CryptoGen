@@ -1,5 +1,5 @@
 # CryptoGen
 Simple tools for security.
-* RSA key Generator
+* REDD KeyGen (RSA, Ecliptic Curves, DSA, Diffie Hellman)
 * Signature Generator (in future)
 

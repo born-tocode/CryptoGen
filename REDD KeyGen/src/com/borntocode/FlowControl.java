@@ -1,6 +1,5 @@
 package com.borntocode;
 
-import java.awt.List;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.security.NoSuchAlgorithmException;
@@ -12,7 +11,7 @@ class FlowControl {
     private final PrintStream out;
     private final Scanner in;
     private final ResourceBundle messages;
-    private Map<String, LinkedList<Integer>> keySizeRestrictions;
+    private Map<String, SortedSet<Integer>> keySizeRestrictions;
     private Integer keySize;
     private String algorithmName;
 
