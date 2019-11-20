@@ -12,8 +12,9 @@ class FlowControl {
     private final ResourceBundle messages;
     private KeysProcessor keysProcessor;
     private int keyLength;
+    private String algorithm;
 
-    FlowControl() throws IOException {
+    FlowControl() {
         Locale currentLocale = new Locale("en", "US");
         messages = ResourceBundle.getBundle("Messages", currentLocale);
         in = new Scanner(System.in);
@@ -23,13 +24,46 @@ class FlowControl {
     void startMainLoop() {
         firstDialog();
         secondDialog();
+        thirdDialog();
         restartProgram();
     }
 
     private void firstDialog() {
-        var listSizesOfKeys = List.of(1024, 2048, 4096, 8192, 12288, 16384);
+        final var listOfAlgorithms = List.of("RSA");
         var digFromUser = 0;
 
+        out.println();
+        out.println(messages.getString("dialog.please.select.algorithm"));
+        out.println();
+
+        printAlgorithmsToConsole(listOfAlgorithms);
+
+        out.println();
+
+        try {
+            in.hasNextInt();
+            digFromUser = in.nextInt();
+            in.nextLine();
+            switch (digFromUser) {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                    algorithm = listOfAlgorithms.get(digFromUser);
+                    break;
+                default:
+                    out.println(messages.getString("dialog.bad.digit") + digFromUser);
+            }
+        } catch (InputMismatchException e) {
+            out.println(messages.getString("dialog.incorrect.choice"));
+        }
+    }
+
+    private void secondDialog() {
+        final var listSizesOfKeys = List.of(1024, 2048, 4096, 8192, 12288, 16384);
+        var digFromUser = 0;
 
         out.println();
         out.println(messages.getString("dialog.please.type.a.digit"));
@@ -60,7 +94,7 @@ class FlowControl {
         }
     }
 
-    private void secondDialog() {
+    private void thirdDialog() {
 
         out.println();
         out.println(messages.getString("dialog.do.you.want.print"));
@@ -85,6 +119,14 @@ class FlowControl {
             }
         } catch (InputMismatchException | IOException | NoSuchAlgorithmException e) {
             System.err.println(messages.getString("dialog.bad.choice.try.again.or.quit.q"));
+        }
+    }
+
+    private void printAlgorithmsToConsole(List<String> listOfAlgorithms) {
+        var count = 0;
+        for (String algorithm : listOfAlgorithms) {
+            out.print(count + ". " + algorithm + " / ");
+            count++;
         }
     }
 
