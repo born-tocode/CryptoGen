@@ -6,9 +6,7 @@ import java.io.PrintStream;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 
 class KeysProcessor {
 
@@ -19,8 +17,8 @@ class KeysProcessor {
         this.keysBuffer = new ArrayList<>();
     }
 
-    void generateKeys(int keyLength) throws NoSuchAlgorithmException {
-        var keyPairGen = KeyPairGenerator.getInstance("RSA");
+    void generateKeys(int keyLength, String algorithm) throws NoSuchAlgorithmException {
+        var keyPairGen = KeyPairGenerator.getInstance(algorithm);
         keyPairGen.initialize(keyLength);
         keyPair = keyPairGen.generateKeyPair();
     }
