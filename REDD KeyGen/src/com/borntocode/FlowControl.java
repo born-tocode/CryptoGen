@@ -11,7 +11,7 @@ class FlowControl {
     private final PrintStream out;
     private final Scanner in;
     private final ResourceBundle messages;
-    private Map<String, Set<Integer>> keySizeRestrictions;
+    private Map<String, List<Integer>> keySizeRestrictions;
     private Integer keySize;
     private String algorithmName;
 
@@ -31,10 +31,10 @@ class FlowControl {
     }
 
     private void firstDialog() {
-        keySizeRestrictions.put("RSA", Set.of(1024, 2048, 4096, 8192, 12288, 16384));
-        keySizeRestrictions.put("EC", Set.of(112, 256, 571));
-        keySizeRestrictions.put("DiffieHellman", Set.of(512, 1024, 1536, 2048, 3072, 4096, 6144, 8192));
-        keySizeRestrictions.put("DSA", Set.of(512, 1024, 2048, 3072));
+        keySizeRestrictions.put("RSA", List.of(1024, 2048, 4096, 8192, 12288, 16384));
+        keySizeRestrictions.put("EC", List.of(112, 256, 571));
+        keySizeRestrictions.put("DiffieHellman", List.of(512, 1024, 1536, 2048, 3072, 4096, 6144, 8192));
+        keySizeRestrictions.put("DSA", List.of(512, 1024, 2048, 3072));
 
         var digFromUser = 0;
 
@@ -117,7 +117,7 @@ class FlowControl {
         }
     }
 
-    private void printAlgorithmsToConsole(Map<String, Set<Integer>> keySizeRestrictions) {
+    private void printAlgorithmsToConsole(Map<String, List<Integer>> keySizeRestrictions) {
         var count = 0;
         for (String algorithm : keySizeRestrictions.keySet()) {
             out.print(count + ". " + algorithm + " / ");
@@ -125,7 +125,7 @@ class FlowControl {
         }
     }
 
-    private void printKeySizeToConsole(Map<String, Set<Integer>> keySizeRestrictions, String algorithm) {
+    private void printKeySizeToConsole(Map<String, List<Integer>> keySizeRestrictions, String algorithm) {
         var count = 0;
         for (Integer keySize : keySizeRestrictions.get(algorithm)) {
             out.print(count + ". " + keySize + " / ");
