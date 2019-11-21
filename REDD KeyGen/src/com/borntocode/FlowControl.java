@@ -40,7 +40,6 @@ class FlowControl {
 
         out.println();
         out.println(messages.getString("dialog.please.select.algorithm"));
-        out.println();
 
         printAlgorithmsToConsole(keySizeRestrictions);
 
@@ -120,7 +119,7 @@ class FlowControl {
     private void printAlgorithmsToConsole(Map<String, List<Integer>> keySizeRestrictions) {
         var count = 0;
         for (String algorithm : keySizeRestrictions.keySet()) {
-            out.print(count + ". " + algorithm + " / ");
+            out.println(" / " + count + ". " + algorithm);
             count++;
         }
     }
@@ -128,7 +127,7 @@ class FlowControl {
     private void printKeySizeToConsole(Map<String, List<Integer>> keySizeRestrictions, String algorithm) {
         var count = 0;
         for (Integer keySize : keySizeRestrictions.get(algorithm)) {
-            out.print(count + ". " + keySize + " / ");
+            out.println( " / " + count + ". " + keySize);
             count++;
         }
     }
