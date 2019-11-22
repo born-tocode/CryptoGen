@@ -39,7 +39,7 @@ class OutBuffer {
                 out.write('\n');
 
                 keysProcessor = new KeysProcessor();
-                keysProcessor.generateKeys(algorithmName, keySize);
+                keysProcessor.generateKeyPair(algorithmName, keySize);
                 keysProcessor.processKeys();
                 out.write(keysProcessor.buildViewOfKeysToFile(i));
 

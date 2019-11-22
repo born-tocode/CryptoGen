@@ -19,7 +19,7 @@ class KeysProcessor {
         this.keysBuffer = new ArrayList<>();
     }
 
-    void generateKeys(String algorithmName, int keySize) throws NoSuchAlgorithmException {
+    void generateKeyPair(String algorithmName, int keySize) throws NoSuchAlgorithmException {
         var keyPairGen = KeyPairGenerator.getInstance(algorithmName);
         keyPairGen.initialize(keySize);
         keyPair = keyPairGen.generateKeyPair();
