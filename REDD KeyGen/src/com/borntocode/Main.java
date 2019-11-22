@@ -1,3 +1,7 @@
+/*
+ * REDD KeyGenerator @2019 v1.1.0
+ */
+
 package com.borntocode;
 
 class Main {
