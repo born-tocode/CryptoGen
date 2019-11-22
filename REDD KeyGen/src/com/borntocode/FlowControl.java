@@ -81,7 +81,8 @@ class FlowControl {
             in.nextLine();
 
             var keySizeSet = keySizeRestrictions.get(algorithmName);
-            keySize = Integer.parseInt(keySizeSet.toArray()[digFromUser].toString());
+            var keySizeString = keySizeSet.toArray()[digFromUser].toString();
+            keySize = Integer.parseInt(keySizeString);
         } catch (InputMismatchException e) {
             out.println(messages.getString("dialog.incorrect.choice"));
         }

@@ -19,8 +19,8 @@ class OutBuffer {
         Path filePrv = Paths.get("privateKey.key");
         Path filePub = Paths.get("publicKey.pub");
         this.PRV_PUB_TXT = new String[]{
-                "-----BEGIN RSA PRIVATE KEY-----", "-----END RSA PRIVATE KEY-----",
-                "-----BEGIN RSA PUBLIC KEY-----", "-----END RSA PUBLIC KEY-----"
+                "-----BEGIN PRIVATE KEY-----", "-----END PRIVATE KEY-----",
+                "-----BEGIN PUBLIC KEY-----", "-----END PUBLIC KEY-----"
         };
         this.listStreams = new ArrayList<>();
         listStreams.add(0, new FileOutputStream(filePrv.toFile()));
