@@ -98,6 +98,7 @@ class FlowControl {
                     break;
                 case "N":
                     new OutBuffer().saveKeysToFiles(algorithmName, keySize);
+                    printInfoAfterSavingKeysToFiles(algorithmName, keySize);
                     break;
                 case "Q":
                     closeIOAndExit(in, out);
@@ -125,6 +126,10 @@ class FlowControl {
         }
     }
 
+    private void printInfoAfterSavingKeysToFiles(String algorithmName, Integer keySize) {
+        out.println();
+        out.println(messages.getString("dialog.generated.and.saved.keys") + " " + algorithmName + " / " + keySize);
+    }
 
     private void printViewOfKeysToConsole() throws IOException, NoSuchAlgorithmException {
         final String[] keyPairView = {"private", "public"};
