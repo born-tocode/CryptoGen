@@ -36,8 +36,6 @@ class FlowControl {
         keySizeRestrictions.put("DiffieHellman", List.of(512, 1024, 1536, 2048, 3072, 4096, 6144, 8192));
         keySizeRestrictions.put("DSA", List.of(512, 1024, 2048, 3072));
 
-        var digFromUser = 0;
-
         out.println();
         out.println(messages.getString("dialog.please.select.algorithm"));
 
@@ -46,27 +44,20 @@ class FlowControl {
         out.println();
 
         try {
+            var digFromUser = 0;
             in.hasNextInt();
             digFromUser = in.nextInt();
             in.nextLine();
-            switch (digFromUser) {
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                    var algorithmArray = keySizeRestrictions.keySet().toArray();
-                    algorithmName = algorithmArray[digFromUser].toString();
-                    break;
-                default:
-                    out.println(messages.getString("dialog.bad.digit") + digFromUser);
-            }
+
+            var algorithmArray = keySizeRestrictions.keySet().toArray();
+            algorithmName = algorithmArray[digFromUser].toString();
+
         } catch (InputMismatchException e) {
             out.println(messages.getString("dialog.incorrect.choice"));
         }
     }
 
     private void secondDialog() {
-        var digFromUser = 0;
 
         out.println();
         out.println(messages.getString("dialog.please.type.a.digit." + algorithmName));
@@ -76,6 +67,7 @@ class FlowControl {
         out.println();
 
         try {
+            var digFromUser = 0;
             in.hasNextInt();
             digFromUser = in.nextInt();
             in.nextLine();
@@ -128,7 +120,7 @@ class FlowControl {
     private void printKeySizeToConsole(Map<String, List<Integer>> keySizeRestrictions, String algorithm) {
         var count = 0;
         for (Integer keySize : keySizeRestrictions.get(algorithm)) {
-            out.println( " / " + count + ". " + keySize);
+            out.println(" / " + count + ". " + keySize);
             count++;
         }
     }
@@ -143,15 +135,15 @@ class FlowControl {
                 out.write('\n');
             }
             out.write('\n');
-            out.println(messages.getString("key.begin.rsa." + keyPairView[i] + ".key"));
+            out.println(messages.getString("key.begin." + keyPairView[i] + ".key"));
 
             keysProcessor = new KeysProcessor();
-            keysProcessor.generateKeys(algorithmName, keySize);
+            keysProcessor.generateKeyPair(algorithmName, keySize);
             keysProcessor.processKeys();
             keysProcessor.buildViewOfKeysToConsole(i);
 
             out.write('\n');
-            out.println(messages.getString("key.end.rsa." + keyPairView[i] + ".key"));
+            out.println(messages.getString("key.end." + keyPairView[i] + ".key"));
 
             out.write('\n');
             out.write('\n');
