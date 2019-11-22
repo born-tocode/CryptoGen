@@ -1,5 +1,6 @@
 # CryptoGen
-Simple tools for security.
-* REDD KeyGen (RSA, Ecliptic Curves, DSA, Diffie Hellman)
+Simple tools for security:
+* REDD KeyGen (RSA, Eliptic Curves, DSA, Diffie Hellman)
+(temporary paused) 
 * Signature Generator (in future)
 
