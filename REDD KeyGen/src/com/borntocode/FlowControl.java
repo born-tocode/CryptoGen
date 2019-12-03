@@ -44,9 +44,8 @@ class FlowControl {
         out.println();
 
         try {
-            var digFromUser = 0;
             in.hasNextInt();
-            digFromUser = in.nextInt();
+            var digFromUser = in.nextInt();
             in.nextLine();
 
             var algorithmArray = keySizeRestrictions.keySet().toArray();
@@ -67,9 +66,8 @@ class FlowControl {
         out.println();
 
         try {
-            var digFromUser = 0;
             in.hasNextInt();
-            digFromUser = in.nextInt();
+            var digFromUser = in.nextInt();
             in.nextLine();
 
             var keySizeSet = keySizeRestrictions.get(algorithmName);
