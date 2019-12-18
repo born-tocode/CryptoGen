@@ -29,14 +29,14 @@ public class FlowControlTest {
     }
 
     @Test
-    public void expectedResourceBundleDontExists() {
+    public void expectedResourceBundleLocaleDontExists() {
         Locale currentLocale = new Locale("test", "test");
         assertThrows(MissingResourceException.class,
                 () -> ResourceBundle.getBundle("Messages", currentLocale));
     }
 
     @Test
-    public void expectedLocaleDontExist() {
+    public void expectedResourceBundleBaseNameDontExist() {
         assertThrows(MissingResourceException.class,
                 () -> ResourceBundle.getBundle("test"));
     }
