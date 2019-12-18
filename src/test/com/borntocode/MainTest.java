@@ -1,30 +1,21 @@
 package com.borntocode;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-
-import static com.borntocode.Main.main;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class MainTest {
 
-    private static Main main;
+    private Main main;
 
-    @BeforeClass
-    public static void setUp(){
+    @BeforeEach
+    public void setUp(){
         main = new Main();
     }
 
     @Test
     public void expectedAnyExceptionsFromMain() {
         assertNotEquals(Exception.class, main);
-    }
-
-    @Test
-    public void expectedAnyExceptionsFromMainMethod(){
-        String[] args = {"test", "test1", "test;"};
-        assertEquals("Run program without additional args", main(args));
     }
 }

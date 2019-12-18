@@ -178,9 +178,9 @@ public class FlowControl {
         } while (flag);
     }
 
-    public void closeIOAndExit(Scanner in, PrintStream out) {
-        in.close();
-        out.close();
+    public void closeIOAndExit(Scanner IN, PrintStream OUT) {
+        IN.close();
+        OUT.close();
         System.exit(1);
     }
 }

@@ -1,23 +1,23 @@
 package com.borntocode;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class OutBufferTest {
 
-    private static OutBuffer outBuffer;
-    private static Path filePrv;
-    private static Path filePub;
+    private OutBuffer outBuffer;
+    private Path filePrv;
+    private Path filePub;
 
-    @BeforeClass
-    public static void setUp() throws FileNotFoundException {
+    @BeforeEach
+    public void setUp() throws FileNotFoundException {
         outBuffer = new OutBuffer();
         filePrv = Paths.get("privateKey.key");
         filePub = Paths.get("publicKey.pub");
