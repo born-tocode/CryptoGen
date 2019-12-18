@@ -27,7 +27,7 @@ class OutBuffer {
         listStreams.add(1, new FileOutputStream(filePub.toFile()));
     }
 
-    void saveKeysToFiles(String algorithmName, int keySize) throws IOException {
+    public void saveKeysToFiles(String algorithmName, int keySize) throws IOException {
 
         var nextString = 0;
         var numberOfFiles = 2;

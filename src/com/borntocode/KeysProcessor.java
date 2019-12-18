@@ -10,16 +10,16 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
-class KeysProcessor {
+public class KeysProcessor {
 
     private List<ByteArrayOutputStream> keysBuffer;
     private KeyPair keyPair;
 
-    KeysProcessor() {
+    public KeysProcessor() {
         this.keysBuffer = new ArrayList<>();
     }
 
-    void generateKeyPair(String algorithmName, int keySize) throws NoSuchAlgorithmException {
+    public void generateKeyPair(String algorithmName, int keySize) throws NoSuchAlgorithmException {
         var keyPairGen = KeyPairGenerator.getInstance(algorithmName);
         keyPairGen.initialize(keySize);
         keyPair = keyPairGen.generateKeyPair();
@@ -39,7 +39,7 @@ class KeysProcessor {
         keysBuffer.get(1).write(splitKeyAlgorithm(publicKeyEncoded));
     }
 
-    private byte[] splitKeyAlgorithm(byte[] oldKey) {
+    public byte[] splitKeyAlgorithm(byte[] oldKey) {
         var length = 54;
         var fullLengthOfSegment = length + 1;
         var newLine = 55;
@@ -62,11 +62,11 @@ class KeysProcessor {
         return newKey;
     }
 
-    void buildViewOfKeysToConsole(int whichKey) throws IOException {
+    public void buildViewOfKeysToConsole(int whichKey) throws IOException {
         keysBuffer.get(whichKey).writeTo(new PrintStream(System.out));
     }
 
-    byte[] buildViewOfKeysToFile(int whichKey) {
+    public byte[] buildViewOfKeysToFile(int whichKey) {
         return keysBuffer.get(whichKey).toByteArray();
     }
 }
