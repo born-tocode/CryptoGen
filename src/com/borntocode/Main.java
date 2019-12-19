@@ -7,10 +7,7 @@ package com.borntocode;
 public class Main {
 
     public static void main(String[] args) {
-        if (args == null) {
             FlowControl flowControl = new FlowControl();
             flowControl.startMainLoop();
-        }
-        System.out.println("Run program without additional args");
     }
 }

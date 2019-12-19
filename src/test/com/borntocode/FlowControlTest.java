@@ -2,7 +2,6 @@ package com.borntocode;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Timeout;
 
 import java.io.PrintStream;
 import java.util.Locale;
@@ -29,7 +28,7 @@ public class FlowControlTest {
     }
 
     @Test
-    public void expectedResourceBundleLocaleDontExists() {
+    public void expectedFakeResourceBundleLocaleDontExists() {
         Locale currentLocale = new Locale("test", "test");
         assertThrows(MissingResourceException.class,
                 () -> ResourceBundle.getBundle("Messages", currentLocale));

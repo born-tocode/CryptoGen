@@ -35,10 +35,7 @@ public class KeysProcessorTest {
         var algorithmName = "RSA";
         var keySize = 512;
         keysProcessor.generateKeyPair(algorithmName, keySize);
-        var keyPairGen = KeyPairGenerator.getInstance(algorithmName);
-        keyPairGen.initialize(keySize);
-        var keyPair = keyPairGen.generateKeyPair();
-        assertNotNull(keyPair);
+        assertNotNull(keysProcessor.getKeyPair());
     }
 
     @Test
