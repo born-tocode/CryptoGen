@@ -1,9 +1,9 @@
 package com.borntocode;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -15,16 +15,16 @@ class OutBuffer {
     private final String[] PRV_PUB_TXT;
     private List<FileOutputStream> listStreams;
 
-    OutBuffer() throws FileNotFoundException {
-        Path filePrv = Paths.get("privateKey.key");
-        Path filePub = Paths.get("publicKey.pub");
+    public OutBuffer() throws FileNotFoundException {
+        File filePrv = Paths.get("privateKey.key").toFile();
+        File filePub = Paths.get("publicKey.pub").toFile();
         this.PRV_PUB_TXT = new String[]{
                 "-----BEGIN PRIVATE KEY-----", "-----END PRIVATE KEY-----",
                 "-----BEGIN PUBLIC KEY-----", "-----END PUBLIC KEY-----"
         };
         this.listStreams = new ArrayList<>();
-        listStreams.add(0, new FileOutputStream(filePrv.toFile()));
-        listStreams.add(1, new FileOutputStream(filePub.toFile()));
+        listStreams.add(0, new FileOutputStream(filePrv));
+        listStreams.add(1, new FileOutputStream(filePub));
     }
 
     public void saveKeysToFiles(String algorithmName, int keySize) throws IOException {
