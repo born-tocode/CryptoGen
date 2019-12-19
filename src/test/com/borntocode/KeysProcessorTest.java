@@ -21,21 +21,25 @@ public class KeysProcessorTest {
     @Test
     public void expectedNoSuchAlgorithm() {
         assertThrows(NoSuchAlgorithmException.class,
-                () -> keysProcessor.generateKeyPair("fake algorithm", 0));
+                     () -> keysProcessor.generateKeyPair("fake algorithm", 0)
+                    );
     }
 
     @Test
     public void expectedInvalidParameterException() {
         assertThrows(InvalidParameterException.class,
-                () -> keysProcessor.generateKeyPair("RSA", 0));
+                     () -> keysProcessor.generateKeyPair("RSA", 0)
+                    );
     }
 
     @Test
     public void expectedKeyPairNotNull() throws NoSuchAlgorithmException {
         var algorithmName = "RSA";
         var keySize = 512;
-        keysProcessor.generateKeyPair(algorithmName, keySize);
-        assertNotNull(keysProcessor.getKeyPair());
+        var keyPairGen = KeyPairGenerator.getInstance(algorithmName);
+        keyPairGen.initialize(keySize);
+        var keyPair = keyPairGen.generateKeyPair();
+        assertNotNull(keyPair);
     }
 
     @Test
@@ -48,12 +52,14 @@ public class KeysProcessorTest {
     @Test
     public void expectedNullListOfBuffers() {
         assertThrows(IndexOutOfBoundsException.class,
-                () -> keysProcessor.buildViewOfKeysToConsole(0));
+                     () -> keysProcessor.buildViewOfKeysToConsole(0)
+                    );
     }
 
     @Test
     public void expectedIndexOutOfBounds() {
         assertThrows(IndexOutOfBoundsException.class,
-                () -> keysProcessor.buildViewOfKeysToFile(4));
+                     () -> keysProcessor.buildViewOfKeysToFile(4)
+                    );
     }
 }
